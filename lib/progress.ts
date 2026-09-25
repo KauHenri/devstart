@@ -1,4 +1,4 @@
-import { UserProgress, Achievement } from './types';
+import { UserProgress, Achievement, Module } from './types';
 
 const PROGRESS_KEY = 'devstart_progress';
 
@@ -100,6 +100,48 @@ export function unlockAchievement(achievementId: string, xpReward: number): User
     progress.level = calculateLevel(progress.xp);
     saveProgress(progress);
   }
+  return progress;
+}
+
+export function savePlacementResult(
+  score: number,
+  total: number,
+  level: string,
+  recommendedModuleSlug: string
+): UserProgress {
+  const progress = getProgress();
+  progress.placementCompleted = true;
+  progress.placementScore = score;
+  progress.placementTotal = total;
+  progress.placementLevel = level;
+  progress.placementRecommendedModule = recommendedModuleSlug;
+  progress.placementDate = new Date().toISOString();
+  saveProgress(progress);
+  return progress;
+}
+
+export function unlockTrackUpToModule(maxModuleOrder: number, allModules: Module[]): UserProgress {
+  const progress = getProgress();
+  const sorted = [...allModules].sort((a, b) => a.order - b.order);
+
+  for (const mod of sorted) {
+    if (mod.order < maxModuleOrder) {
+      for (const lesson of mod.lessons) {
+        if (!progress.completedLessons.includes(lesson.id)) {
+          progress.completedLessons.push(lesson.id);
+        }
+      }
+    }
+  }
+
+  // Award XP bonus for validated knowledge (150 XP per unlocked module)
+  const xpReward = Math.max(0, (maxModuleOrder - 1) * 150);
+  if (xpReward > 0 && progress.xp < xpReward) {
+    progress.xp = Math.max(progress.xp, xpReward);
+    progress.level = calculateLevel(progress.xp);
+  }
+
+  saveProgress(progress);
   return progress;
 }
 

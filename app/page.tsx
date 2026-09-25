@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Code2, Brain, Trophy, Zap, Users, BookOpen, CheckCircle2, Star } from 'lucide-react';
+import { ArrowRight, Code2, Brain, Trophy, Zap, Users, BookOpen, CheckCircle2, Star, Compass, Sparkles } from 'lucide-react';
 import { useProgress } from '@/contexts/ProgressContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getLevelProgress } from '@/lib/progress';
@@ -72,6 +72,18 @@ export default function HomePage() {
                 <ArrowRight size={18} />
               </Link>
               <Link
+                href="/nivelamento"
+                className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all hover:scale-105 active:scale-95"
+                style={{
+                  background: 'rgba(99,102,241,0.1)',
+                  color: 'var(--primary)',
+                  border: '1px solid rgba(99,102,241,0.3)',
+                }}
+              >
+                <Compass size={18} />
+                {t('Teste de Nivelamento', 'Placement Test')}
+              </Link>
+              <Link
                 href="/roadmap"
                 className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-colors"
                 style={{
@@ -115,6 +127,51 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Placement Test Banner */}
+      <section className="max-w-7xl mx-auto px-4 py-4">
+        <div
+          className="rounded-3xl p-6 md:p-8 border flex flex-col md:flex-row items-center justify-between gap-6"
+          style={{
+            background: 'linear-gradient(135deg, rgba(99,102,241,0.06), rgba(168,85,247,0.06))',
+            borderColor: 'rgba(99,102,241,0.3)',
+          }}
+        >
+          <div className="flex items-start gap-4">
+            <div
+              className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-lg"
+              style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}
+            >
+              <Compass size={24} />
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-500 uppercase tracking-wider mb-1">
+                <Sparkles size={12} />
+                {t('Já tem conhecimento em programação?', 'Already know programming?')}
+              </div>
+              <h3 className="text-lg md:text-xl font-bold" style={{ color: 'var(--foreground)' }}>
+                {t('Faça o Teste de Nivelamento e pule direto para o seu nível', 'Take the Placement Test and jump straight to your level')}
+              </h3>
+              <p className="text-sm mt-1 max-w-xl" style={{ color: 'var(--muted-foreground)' }}>
+                {t(
+                  '15 questões práticas em 10 minutos para diagnosticar suas habilidades e desbloquear a trilha a partir do módulo ideal.',
+                  '15 practical questions in 10 minutes to diagnose your skills and unlock the track starting from the ideal module.'
+                )}
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/nivelamento"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-white shrink-0 transition-transform hover:scale-105 active:scale-95 shadow-md"
+            style={{
+              background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+            }}
+          >
+            {t('Fazer Nivelamento', 'Take Placement Test')}
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+      </section>
 
       {/* Modules Grid */}
       <section className="max-w-7xl mx-auto px-4 py-12">

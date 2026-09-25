@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { Sun, Moon, Globe, Code2, LayoutDashboard, Map, Trophy, Zap } from 'lucide-react';
+import { Sun, Moon, Globe, Code2, LayoutDashboard, Map, Trophy, Zap, Compass } from 'lucide-react';
 import { useProgress } from '@/contexts/ProgressContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getLevelProgress } from '@/lib/progress';
@@ -44,6 +44,9 @@ export function Navbar() {
           </NavLink>
           <NavLink href="/roadmap" icon={<Map size={15} />}>
             Roadmap
+          </NavLink>
+          <NavLink href="/nivelamento" icon={<Compass size={15} />}>
+            {t('Nivelamento', 'Placement')}
           </NavLink>
           <NavLink href="/dashboard" icon={<LayoutDashboard size={15} />}>
             Dashboard

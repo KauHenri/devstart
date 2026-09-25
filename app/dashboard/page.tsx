@@ -6,7 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { getLevelProgress } from '@/lib/progress';
 import { ACHIEVEMENTS } from '@/lib/achievements';
 import { MODULES } from '@/data/modules';
-import { Trophy, Flame, BookOpen, Code, Clock, Star, ArrowRight } from 'lucide-react';
+import { Trophy, Flame, BookOpen, Code, Clock, Star, ArrowRight, Compass } from 'lucide-react';
 
 export default function DashboardPage() {
   const { progress } = useProgress();
@@ -96,6 +96,81 @@ export default function DashboardPage() {
           <span>{levelData.percentage}%</span>
           <span>{t('Nv.', 'Lv.')} {progress.level + 1}</span>
         </div>
+      </div>
+
+      {/* Placement Test Status / Invite */}
+      <div
+        className="rounded-2xl p-5 border mb-8 flex flex-col sm:flex-row items-center justify-between gap-4"
+        style={{
+          background: progress.placementCompleted
+            ? 'linear-gradient(135deg, rgba(34,197,94,0.06), rgba(99,102,241,0.06))'
+            : 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.08))',
+          borderColor: progress.placementCompleted ? 'rgba(34,197,94,0.3)' : 'rgba(99,102,241,0.3)',
+        }}
+      >
+        <div className="flex items-center gap-4">
+          <div
+            className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-md"
+            style={{
+              background: progress.placementCompleted
+                ? 'linear-gradient(135deg, #22c55e, #16a34a)'
+                : 'linear-gradient(135deg, #6366f1, #a855f7)',
+            }}
+          >
+            <Compass size={24} />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-500">
+                {t('Teste de Nivelamento', 'Placement Test')}
+              </span>
+              {progress.placementCompleted && (
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500">
+                  {t('Concluído', 'Completed')}
+                </span>
+              )}
+            </div>
+            <h3 className="font-bold text-sm" style={{ color: 'var(--foreground)' }}>
+              {progress.placementCompleted
+                ? t(
+                    `Nível Diagnosticado: ${progress.placementLevel?.toUpperCase()} (${progress.placementScore}/${progress.placementTotal || 15} acertos)`,
+                    `Assessed Level: ${progress.placementLevel?.toUpperCase()} (${progress.placementScore}/${progress.placementTotal || 15} correct)`
+                  )
+                : t(
+                    'Descubra seu nível exato e pule direto para o módulo ideal',
+                    'Discover your exact level and jump straight to the ideal module'
+                  )}
+            </h3>
+            <p className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>
+              {progress.placementCompleted
+                ? t(
+                    'Você pode refazer o teste a qualquer momento para reavaliar suas habilidades.',
+                    'You can retake the test at any time to reassess your skills.'
+                  )
+                : t(
+                    '15 questões práticas em 10 minutos com diagnóstico completo de habilidades.',
+                    '15 practical questions in 10 minutes with comprehensive skill diagnostics.'
+                  )}
+            </p>
+          </div>
+        </div>
+
+        <Link
+          href="/nivelamento"
+          className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold text-white shrink-0 transition-transform hover:scale-105 active:scale-95 shadow-md"
+          style={{
+            background: progress.placementCompleted
+              ? 'var(--muted)'
+              : 'linear-gradient(135deg, #6366f1, #a855f7)',
+            color: progress.placementCompleted ? 'var(--foreground)' : 'white',
+            border: progress.placementCompleted ? '1px solid var(--border)' : undefined,
+          }}
+        >
+          {progress.placementCompleted
+            ? t('Ver Diagnóstico / Refazer', 'View Diagnostic / Retake')
+            : t('Fazer Nivelamento', 'Take Placement')}
+          <ArrowRight size={14} />
+        </Link>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">

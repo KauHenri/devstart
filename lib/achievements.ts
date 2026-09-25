@@ -141,4 +141,14 @@ export const ACHIEVEMENTS: Achievement[] = [
     condition: (p: UserProgress) => p.completedLessons.length >= 40,
     xpReward: 500,
   },
+  {
+    id: 'placement_test',
+    title: 'Bússola de Conhecimento',
+    titleEn: 'Knowledge Compass',
+    description: 'Concluiu o teste de nivelamento',
+    descriptionEn: 'Completed the placement test',
+    icon: '🧭',
+    condition: (p: UserProgress) => Boolean(p.placementCompleted),
+    xpReward: 100,
+  },
 ];

@@ -2,8 +2,21 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { UserProgress, Achievement } from '@/lib/types';
-import { getProgress, saveProgress, DEFAULT_PROGRESS, calculateLevel, addXP as addXPLib, completeLesson as completeLessonLib, completeExercise as completeExerciseLib, completeChallenge as completeChallengeLib, checkAchievements } from '@/lib/progress';
+import {
+  getProgress,
+  saveProgress,
+  DEFAULT_PROGRESS,
+  calculateLevel,
+  addXP as addXPLib,
+  completeLesson as completeLessonLib,
+  completeExercise as completeExerciseLib,
+  completeChallenge as completeChallengeLib,
+  checkAchievements,
+  savePlacementResult,
+  unlockTrackUpToModule,
+} from '@/lib/progress';
 import { ACHIEVEMENTS } from '@/lib/achievements';
+import { MODULES } from '@/data/modules';
 
 interface ProgressContextType {
   progress: UserProgress;
@@ -11,6 +24,8 @@ interface ProgressContextType {
   completeLesson: (lessonId: string, xpReward: number) => void;
   completeExercise: (exerciseId: string, xpReward: number) => void;
   completeChallenge: (challengeId: string, xpReward: number) => void;
+  savePlacement: (score: number, total: number, level: string, recommendedModuleSlug: string) => void;
+  unlockUpToModule: (maxOrder: number) => void;
   newAchievements: Achievement[];
   clearNewAchievements: () => void;
   setLanguage: (lang: 'pt' | 'en') => void;
@@ -77,6 +92,28 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const savePlacement = (score: number, total: number, level: string, recommendedModuleSlug: string) => {
+    const updated = savePlacementResult(score, total, level, recommendedModuleSlug);
+    setProgress({ ...updated });
+    const unlocked = checkAchievements(updated, ACHIEVEMENTS);
+    if (unlocked.length > 0) {
+      setNewAchievements(prev => [...prev, ...unlocked]);
+      const final = getProgress();
+      setProgress({ ...final });
+    }
+  };
+
+  const unlockUpToModule = (maxOrder: number) => {
+    const updated = unlockTrackUpToModule(maxOrder, MODULES);
+    setProgress({ ...updated });
+    const unlocked = checkAchievements(updated, ACHIEVEMENTS);
+    if (unlocked.length > 0) {
+      setNewAchievements(prev => [...prev, ...unlocked]);
+      const final = getProgress();
+      setProgress({ ...final });
+    }
+  };
+
   const setLanguage = (lang: 'pt' | 'en') => {
     const updated = { ...progress, language: lang };
     saveProgress(updated);
@@ -92,6 +129,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       completeLesson,
       completeExercise,
       completeChallenge,
+      savePlacement,
+      unlockUpToModule,
       newAchievements,
       clearNewAchievements,
       setLanguage,

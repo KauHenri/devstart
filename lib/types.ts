@@ -82,6 +82,44 @@ export interface UserProgress {
   achievements: string[];
   totalStudyMinutes: number;
   language: 'pt' | 'en';
+  placementCompleted?: boolean;
+  placementScore?: number;
+  placementTotal?: number;
+  placementLevel?: string;
+  placementDate?: string;
+  placementRecommendedModule?: string;
+}
+
+export type PlacementCategory = 'logic' | 'flow_control' | 'data_structures' | 'functions' | 'oop';
+
+export interface PlacementQuestion {
+  id: string;
+  category: PlacementCategory;
+  categoryLabel: { pt: string; en: string };
+  difficulty: 'easy' | 'medium' | 'hard';
+  codeSnippet?: string;
+  question: string;
+  questionEn: string;
+  options: string[];
+  optionsEn: string[];
+  correctIndex: number;
+  explanation: string;
+  explanationEn: string;
+}
+
+export interface PlacementTier {
+  id: string;
+  minScore: number;
+  maxScore: number;
+  titlePt: string;
+  titleEn: string;
+  badge: string;
+  summaryPt: string;
+  summaryEn: string;
+  recommendedModuleSlug: string;
+  recommendedModuleTitlePt: string;
+  recommendedModuleTitleEn: string;
+  unlockModuleOrder: number;
 }
 
 export interface Achievement {

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Clock, Star, ChevronRight, CheckCircle2, Lock } from 'lucide-react';
+import { Clock, Star, ChevronRight, CheckCircle2, Lock, Compass } from 'lucide-react';
 import { MODULES } from '@/data/modules';
 import { useProgress } from '@/contexts/ProgressContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -17,7 +17,7 @@ export default function ModulosPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       {/* Header */}
-      <div className="mb-10">
+      <div className="mb-8">
         <h1 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: 'var(--foreground)' }}>
           {t('Trilha de Aprendizado', 'Learning Track')}
         </h1>
@@ -34,6 +34,71 @@ export default function ModulosPage() {
           <StatPill emoji="⭐" label={`${totalXP} XP ${t('total', 'total')}`} />
         </div>
       </div>
+
+      {/* Placement Test Banner */}
+      {!progress.placementCompleted ? (
+        <div
+          className="mb-8 p-5 md:p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4"
+          style={{
+            background: 'linear-gradient(135deg, rgba(99,102,241,0.06), rgba(168,85,247,0.06))',
+            borderColor: 'rgba(99,102,241,0.3)',
+          }}
+        >
+          <div className="flex items-center gap-3.5">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-white shrink-0"
+              style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}
+            >
+              <Compass size={20} />
+            </div>
+            <div>
+              <div className="font-bold text-sm" style={{ color: 'var(--foreground)' }}>
+                {t('Não sabe por onde começar?', 'Not sure where to start?')}
+              </div>
+              <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+                {t(
+                  'Faça o teste de nivelamento em 10 minutos para encontrar seu ponto ideal na trilha.',
+                  'Take the 10-minute placement test to find your ideal starting point on the track.'
+                )}
+              </div>
+            </div>
+          </div>
+          <Link
+            href="/nivelamento"
+            className="px-4 py-2 rounded-xl text-xs font-bold text-white shrink-0 transition-opacity hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}
+          >
+            {t('Fazer Nivelamento', 'Take Placement')}
+          </Link>
+        </div>
+      ) : (
+        <div
+          className="mb-8 p-4 rounded-2xl border flex items-center justify-between gap-4"
+          style={{
+            background: 'rgba(34,197,94,0.05)',
+            borderColor: 'rgba(34,197,94,0.25)',
+          }}
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-xl">🧭</span>
+            <div>
+              <span className="text-xs font-semibold text-emerald-500 uppercase">
+                {t('Nivelamento Avaliado', 'Assessed Placement')}:
+              </span>{' '}
+              <span className="text-xs font-bold" style={{ color: 'var(--foreground)' }}>
+                {progress.placementScore}/{progress.placementTotal || 15} {t('acertos', 'correct')}
+              </span>
+            </div>
+          </div>
+          <Link
+            href="/nivelamento"
+            className="text-xs font-semibold hover:underline"
+            style={{ color: 'var(--primary)' }}
+          >
+            {t('Refazer Teste', 'Retake Test')}
+          </Link>
+        </div>
+      )}
 
       {/* Modules list */}
       <div className="space-y-4">
