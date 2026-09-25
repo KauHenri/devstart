@@ -5,8 +5,11 @@ import { useProgress } from '@/contexts/ProgressContext';
 import { Achievement } from '@/lib/types';
 import { X } from 'lucide-react';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+
 export function AchievementToast() {
   const { newAchievements, clearNewAchievements } = useProgress();
+  const { t, language } = useLanguage();
   const [visible, setVisible] = useState<Achievement | null>(null);
   const [queue, setQueue] = useState<Achievement[]>([]);
 
@@ -33,6 +36,9 @@ export function AchievementToast() {
 
   if (!visible) return null;
 
+  const title = (language === 'en' && visible.titleEn) ? visible.titleEn : visible.title;
+  const description = (language === 'en' && visible.descriptionEn) ? visible.descriptionEn : visible.description;
+
   return (
     <div
       className="fixed bottom-24 right-4 z-50 achievement-pop max-w-sm"
@@ -48,13 +54,13 @@ export function AchievementToast() {
         <div className="text-3xl">{visible.icon}</div>
         <div className="flex-1">
           <div className="text-xs font-semibold mb-0.5" style={{ color: 'var(--primary)' }}>
-            🏆 Conquista Desbloqueada!
+            🏆 {t('Conquista Desbloqueada!', 'Achievement Unlocked!')}
           </div>
           <div className="font-bold" style={{ color: 'var(--foreground)' }}>
-            {visible.title}
+            {title}
           </div>
           <div className="text-sm mt-0.5" style={{ color: 'var(--muted-foreground)' }}>
-            {visible.description}
+            {description}
           </div>
           <div className="text-xs mt-1 font-medium" style={{ color: '#f59e0b' }}>
             +{visible.xpReward} XP

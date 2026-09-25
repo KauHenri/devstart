@@ -9,9 +9,9 @@ import { MODULES } from '@/data/modules';
 
 export default function HomePage() {
   const { progress } = useProgress();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const isReturning = progress.completedLessons.length > 0;
-  const levelData = getLevelProgress(progress.xp);
+  const levelData = getLevelProgress(progress.xp, language);
 
   return (
     <div className="min-h-screen">
@@ -165,13 +165,13 @@ export default function HomePage() {
                       {t('Módulo', 'Module')} {module.order}
                     </div>
                     <h3 className="font-bold text-sm leading-tight" style={{ color: 'var(--foreground)' }}>
-                      {module.title}
+                      {(language === 'en' && module.titleEn) ? module.titleEn : module.title}
                     </h3>
                   </div>
                   {pct === 100 && <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />}
                 </div>
                 <p className="text-xs mb-3 line-clamp-2" style={{ color: 'var(--muted-foreground)' }}>
-                  {module.description}
+                  {(language === 'en' && module.descriptionEn) ? module.descriptionEn : module.description}
                 </p>
                 <div className="flex items-center justify-between text-xs" style={{ color: 'var(--muted-foreground)' }}>
                   <span>{module.lessons.length} {t('aulas', 'lessons')}</span>

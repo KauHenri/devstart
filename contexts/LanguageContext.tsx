@@ -1,8 +1,8 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-type Language = 'pt' | 'en';
+export type Language = 'pt' | 'en';
 
 interface LanguageContextType {
   language: Language;
@@ -12,10 +12,28 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>('pt');
+const STORAGE_KEY = 'devstart_lang';
 
-  const t = (pt: string, en: string) => language === 'pt' ? pt : en;
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [language, setLanguageState] = useState<Language>('pt');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(STORAGE_KEY) as Language;
+      if (saved === 'pt' || saved === 'en') {
+        setLanguageState(saved);
+      }
+    }
+  }, []);
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, lang);
+    }
+  };
+
+  const t = (pt: string, en: string) => (language === 'pt' ? pt : en);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>

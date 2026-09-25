@@ -21,12 +21,15 @@ import { CodeEditor } from '@/components/editor/CodeEditor';
 interface TimedChallenge {
   id: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   difficulty: 'easy' | 'medium' | 'hard';
   timeLimitMinutes: number;
   xpReward: number;
   starterCode: string;
   expectedGoal: string;
+  expectedGoalEn?: string;
   validate?: (output: string) => boolean;
 }
 
@@ -34,7 +37,9 @@ const CHALLENGES: TimedChallenge[] = [
   {
     id: 'ch-1',
     title: 'Corrida dos Pares',
+    titleEn: 'Race of Evens',
     description: 'Escreva um código que imprima todos os números pares de 1 até 20, um por linha.',
+    descriptionEn: 'Write code that prints all even numbers from 1 to 20, one per line.',
     difficulty: 'easy',
     timeLimitMinutes: 5,
     xpReward: 80,
@@ -43,6 +48,7 @@ for num in range(1, 21):
     # Complete aqui com if para verificar se o número é par
     pass`,
     expectedGoal: 'Saída esperada: 2, 4, 6, ..., 20 (um por linha)',
+    expectedGoalEn: 'Expected output: 2, 4, 6, ..., 20 (one per line)',
     validate: (output: string) => {
       const nums = output.trim().split(/\s+/).map(n => parseInt(n, 10)).filter(n => !isNaN(n));
       const expected = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
@@ -52,7 +58,9 @@ for num in range(1, 21):
   {
     id: 'ch-2',
     title: 'Fatorial Relâmpago',
+    titleEn: 'Lightning Factorial',
     description: 'Calcule o fatorial do número 6 (6! = 6 * 5 * 4 * 3 * 2 * 1 = 720) e exiba o resultado.',
+    descriptionEn: 'Calculate the factorial of number 6 (6! = 6 * 5 * 4 * 3 * 2 * 1 = 720) and display the result.',
     difficulty: 'medium',
     timeLimitMinutes: 7,
     xpReward: 120,
@@ -64,12 +72,15 @@ fatorial = 1
 
 print(f"O fatorial de {numero} é {fatorial}")`,
     expectedGoal: 'Saída esperada: O fatorial de 6 é 720',
+    expectedGoalEn: 'Expected output: The factorial of 6 is 720',
     validate: (output: string) => output.includes('720'),
   },
   {
     id: 'ch-3',
     title: 'Inversor de Palavras',
+    titleEn: 'Word Inverter',
     description: 'Crie uma variável com uma frase e exiba a frase invertida (de trás para frente).',
+    descriptionEn: 'Create a variable with a phrase and display the reversed phrase (backward).',
     difficulty: 'easy',
     timeLimitMinutes: 4,
     xpReward: 70,
@@ -79,12 +90,15 @@ invertida = "" # Complete aqui
 
 print(f"Invertida: {invertida}")`,
     expectedGoal: 'Saída esperada: Invertida: tratSveD',
+    expectedGoalEn: 'Expected output: Inverted: tratSveD',
     validate: (output: string) => output.includes('tratSveD'),
   },
   {
     id: 'ch-4',
     title: 'Detector de Palíndromo',
+    titleEn: 'Palindrome Detector',
     description: 'Verifique se a palavra "arara" é um palíndromo (se lê igual de trás pra frente). Se for, imprima "É palíndromo", senão "Não é palíndromo".',
+    descriptionEn: 'Check if the word "arara" is a palindrome (reads the same forward and backward). If so, print "É palíndromo", else "Não é palíndromo".',
     difficulty: 'medium',
     timeLimitMinutes: 8,
     xpReward: 150,
@@ -95,6 +109,7 @@ print(f"Invertida: {invertida}")`,
 # Complete aqui
 `,
     expectedGoal: 'Saída esperada: É palíndromo',
+    expectedGoalEn: 'Expected output: É palíndromo',
     validate: (output: string) => {
       const clean = output.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       return clean.includes('e palindromo') && !clean.includes('nao e');
@@ -110,7 +125,7 @@ interface FeedbackState {
 
 export default function DesafiosPage() {
   const { progress, completeChallenge } = useProgress();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [selectedChallenge, setSelectedChallenge] = useState<TimedChallenge | null>(null);
   const [feedback, setFeedback] = useState<FeedbackState | null>(null);
 
@@ -132,15 +147,21 @@ export default function DesafiosPage() {
     if (error) {
       setFeedback({
         type: 'error',
-        message: 'Ocorreu um erro na execução do código Python. Verifique o console acima.',
+        message: t(
+          'Ocorreu um erro na execução do código Python. Verifique o console acima.',
+          'An error occurred during Python execution. Check the console above.'
+        ),
       });
       return;
     }
 
-    if (!output || output.trim() === '(sem saída)') {
+    if (!output || output.trim() === '(sem saída)' || output.trim() === '(no output)') {
       setFeedback({
         type: 'warning',
-        message: 'O código executou mas não exibiu nada. Use print(...) para imprimir o resultado.',
+        message: t(
+          'O código executou mas não exibiu nada. Use print(...) para imprimir o resultado.',
+          'Code executed but displayed nothing. Use print(...) to print the result.'
+        ),
       });
       return;
     }
@@ -155,20 +176,29 @@ export default function DesafiosPage() {
         completeChallenge(selectedChallenge.id, selectedChallenge.xpReward);
         setFeedback({
           type: 'success',
-          message: `Desafio concluído com sucesso! +${selectedChallenge.xpReward} XP adicionados à sua conta!`,
+          message: t(
+            `Desafio concluído com sucesso! +${selectedChallenge.xpReward} XP adicionados à sua conta!`,
+            `Challenge completed successfully! +${selectedChallenge.xpReward} XP added to your account!`
+          ),
           alreadyCompleted: false,
         });
       } else {
         setFeedback({
           type: 'success',
-          message: 'Desafio concluído com sucesso! (Você já resgatou o XP deste desafio anteriormente).',
+          message: t(
+            'Desafio concluído com sucesso! (Você já resgatou o XP deste desafio anteriormente).',
+            'Challenge completed successfully! (You already claimed this challenge XP).'
+          ),
           alreadyCompleted: true,
         });
       }
     } else {
       setFeedback({
         type: 'warning',
-        message: 'O código rodou sem erros de sintaxe, mas a saída não confere com o objetivo esperado. Tente novamente!',
+        message: t(
+          'O código rodou sem erros de sintaxe, mas a saída não confere com o objetivo esperado. Tente novamente!',
+          'Code ran with no syntax errors, but output does not match expected result. Try again!'
+        ),
       });
     }
   };
@@ -261,13 +291,13 @@ export default function DesafiosPage() {
                     color: selectedChallenge.difficulty === 'easy' ? '#22c55e' : '#eab308',
                   }}
                 >
-                  {selectedChallenge.difficulty === 'easy' ? '🟢 Fácil' : '🟡 Médio'}
+                  {selectedChallenge.difficulty === 'easy' ? t('🟢 Fácil', '🟢 Easy') : t('🟡 Médio', '🟡 Medium')}
                 </span>
                 <h2 className="text-2xl font-bold" style={{ color: 'var(--foreground)' }}>
-                  {selectedChallenge.title}
+                  {(language === 'en' && selectedChallenge.titleEn) ? selectedChallenge.titleEn : selectedChallenge.title}
                 </h2>
                 <p className="mt-1" style={{ color: 'var(--muted-foreground)' }}>
-                  {selectedChallenge.description}
+                  {(language === 'en' && selectedChallenge.descriptionEn) ? selectedChallenge.descriptionEn : selectedChallenge.description}
                 </p>
               </div>
 
@@ -277,7 +307,7 @@ export default function DesafiosPage() {
                 </div>
                 <div className="text-xs font-bold mt-1" style={{ color: 'var(--primary)' }}>
                   {completedList.includes(selectedChallenge.id) ? (
-                    <span className="text-emerald-400">+{selectedChallenge.xpReward} XP (Resgatado)</span>
+                    <span className="text-emerald-400">+{selectedChallenge.xpReward} XP ({t('Resgatado', 'Claimed')})</span>
                   ) : (
                     <span>+{selectedChallenge.xpReward} XP</span>
                   )}
@@ -289,7 +319,7 @@ export default function DesafiosPage() {
               className="p-3 rounded-xl text-xs font-mono mb-4 border"
               style={{ background: 'var(--muted)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
             >
-              🎯 {selectedChallenge.expectedGoal}
+              🎯 {(language === 'en' && selectedChallenge.expectedGoalEn) ? selectedChallenge.expectedGoalEn : selectedChallenge.expectedGoal}
             </div>
 
             {/* Monaco + Pyodide */}
@@ -315,8 +345,8 @@ export default function DesafiosPage() {
                       <div>
                         <div className="font-bold text-sm text-emerald-400">
                           {feedback.alreadyCompleted
-                            ? 'Excelente prática!'
-                            : 'Parabéns! Desafio concluído!'}
+                            ? t('Excelente prática!', 'Great practice!')
+                            : t('Parabéns! Desafio concluído!', 'Congratulations! Challenge completed!')}
                         </div>
                         <p className="text-xs text-slate-300 mt-0.5">{feedback.message}</p>
                       </div>
@@ -421,7 +451,7 @@ export default function DesafiosPage() {
                           color: ch.difficulty === 'easy' ? '#22c55e' : '#eab308',
                         }}
                       >
-                        {ch.difficulty === 'easy' ? '🟢 Fácil' : '🟡 Médio'}
+                        {ch.difficulty === 'easy' ? t('🟢 Fácil', '🟢 Easy') : t('🟡 Médio', '🟡 Medium')}
                       </span>
                       {isDone && (
                         <span className="text-xs px-2 py-0.5 rounded-full font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
@@ -435,16 +465,16 @@ export default function DesafiosPage() {
                   </div>
 
                   <h3 className="text-lg font-bold mb-1" style={{ color: 'var(--foreground)' }}>
-                    {ch.title}
+                    {(language === 'en' && ch.titleEn) ? ch.titleEn : ch.title}
                   </h3>
                   <p className="text-sm line-clamp-2 mb-4" style={{ color: 'var(--muted-foreground)' }}>
-                    {ch.description}
+                    {(language === 'en' && ch.descriptionEn) ? ch.descriptionEn : ch.description}
                   </p>
                 </div>
 
                 <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: 'var(--border)' }}>
                   <span className="text-xs font-semibold" style={{ color: isDone ? '#22c55e' : 'var(--primary)' }}>
-                    {isDone ? `+${ch.xpReward} XP (Resgatado)` : `+${ch.xpReward} XP`}
+                    {isDone ? `+${ch.xpReward} XP (${t('Resgatado', 'Claimed')})` : `+${ch.xpReward} XP`}
                   </span>
                   <button
                     onClick={() => {

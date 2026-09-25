@@ -10,8 +10,8 @@ import { Trophy, Flame, BookOpen, Code, Clock, Star, ArrowRight } from 'lucide-r
 
 export default function DashboardPage() {
   const { progress } = useProgress();
-  const { t } = useLanguage();
-  const levelData = getLevelProgress(progress.xp);
+  const { t, language } = useLanguage();
+  const levelData = getLevelProgress(progress.xp, language);
 
   const totalLessons = MODULES.reduce((acc, m) => acc + m.lessons.length, 0);
   const completedPct = totalLessons > 0 ? Math.round((progress.completedLessons.length / totalLessons) * 100) : 0;
@@ -37,7 +37,7 @@ export default function DashboardPage() {
           icon={<Star className="text-yellow-400" size={20} />}
           label="XP Total"
           value={progress.xp.toString()}
-          sublabel={`Nível ${progress.level} — ${levelData.levelTitle}`}
+          sublabel={`${t('Nível', 'Level')} ${progress.level} — ${levelData.levelTitle}`}
           color="#f59e0b"
         />
         <StatCard
@@ -92,9 +92,9 @@ export default function DashboardPage() {
           />
         </div>
         <div className="flex justify-between mt-1 text-xs" style={{ color: 'var(--muted-foreground)' }}>
-          <span>Nv. {progress.level}</span>
+          <span>{t('Nv.', 'Lv.')} {progress.level}</span>
           <span>{levelData.percentage}%</span>
-          <span>Nv. {progress.level + 1}</span>
+          <span>{t('Nv.', 'Lv.')} {progress.level + 1}</span>
         </div>
       </div>
 
@@ -118,8 +118,12 @@ export default function DashboardPage() {
                   {nextModule.icon}
                 </div>
                 <div className="flex-1">
-                  <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>{nextModule.title}</div>
-                  <div className="font-semibold" style={{ color: 'var(--foreground)' }}>{nextLesson.title}</div>
+                  <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+                    {(language === 'en' && nextModule.titleEn) ? nextModule.titleEn : nextModule.title}
+                  </div>
+                  <div className="font-semibold" style={{ color: 'var(--foreground)' }}>
+                    {(language === 'en' && nextLesson.titleEn) ? nextLesson.titleEn : nextLesson.title}
+                  </div>
                   <div className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>{nextLesson.estimatedMinutes} min · {nextLesson.xpReward} XP</div>
                 </div>
                 <ArrowRight size={18} style={{ color: 'var(--muted-foreground)' }} className="group-hover:translate-x-1 transition-transform" />
@@ -143,7 +147,7 @@ export default function DashboardPage() {
                   <div key={module.id}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm font-medium flex items-center gap-2" style={{ color: 'var(--foreground)' }}>
-                        <span>{module.icon}</span> {module.title}
+                        <span>{module.icon}</span> {(language === 'en' && module.titleEn) ? module.titleEn : module.title}
                       </span>
                       <span className="text-xs" style={{ color: 'var(--muted-foreground)' }}>{done}/{module.lessons.length}</span>
                     </div>
@@ -176,8 +180,12 @@ export default function DashboardPage() {
               <div key={a.id} className="flex items-center gap-3">
                 <span className="text-2xl">{a.icon}</span>
                 <div>
-                  <div className="text-sm font-medium" style={{ color: 'var(--foreground)' }}>{a.title}</div>
-                  <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>{a.description}</div>
+                  <div className="text-sm font-medium" style={{ color: 'var(--foreground)' }}>
+                    {(language === 'en' && a.titleEn) ? a.titleEn : a.title}
+                  </div>
+                  <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+                    {(language === 'en' && a.descriptionEn) ? a.descriptionEn : a.description}
+                  </div>
                 </div>
               </div>
             ))}
@@ -185,8 +193,12 @@ export default function DashboardPage() {
               <div key={a.id} className="flex items-center gap-3 opacity-40">
                 <span className="text-2xl grayscale">🔒</span>
                 <div>
-                  <div className="text-sm font-medium" style={{ color: 'var(--foreground)' }}>{a.title}</div>
-                  <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>{a.description}</div>
+                  <div className="text-sm font-medium" style={{ color: 'var(--foreground)' }}>
+                    {(language === 'en' && a.titleEn) ? a.titleEn : a.title}
+                  </div>
+                  <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+                    {(language === 'en' && a.descriptionEn) ? a.descriptionEn : a.description}
+                  </div>
                 </div>
               </div>
             ))}

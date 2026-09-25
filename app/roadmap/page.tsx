@@ -8,7 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function RoadmapPage() {
   const { progress } = useProgress();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const totalLessons = MODULES.reduce((acc, m) => acc + m.lessons.length, 0);
   const completedPct = totalLessons > 0 ? Math.round((progress.completedLessons.length / totalLessons) * 100) : 0;
@@ -115,10 +115,14 @@ export default function RoadmapPage() {
                         </span>
                       )}
                     </div>
-                    <h3 className="font-bold" style={{ color: 'var(--foreground)' }}>{module.title}</h3>
-                    <p className="text-sm mt-0.5 line-clamp-1" style={{ color: 'var(--muted-foreground)' }}>{module.description}</p>
+                    <h3 className="font-bold" style={{ color: 'var(--foreground)' }}>
+                      {(language === 'en' && module.titleEn) ? module.titleEn : module.title}
+                    </h3>
+                    <p className="text-sm mt-0.5 line-clamp-1" style={{ color: 'var(--muted-foreground)' }}>
+                      {(language === 'en' && module.descriptionEn) ? module.descriptionEn : module.description}
+                    </p>
                     <div className="flex gap-3 mt-2 text-xs" style={{ color: 'var(--muted-foreground)' }}>
-                      <span>{module.lessons.length} aulas</span>
+                      <span>{module.lessons.length} {t('aulas', 'lessons')}</span>
                       <span>{module.estimatedHours}h</span>
                       <span className="font-semibold" style={{ color: 'var(--primary)' }}>{module.xpReward} XP</span>
                     </div>

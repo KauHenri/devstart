@@ -55,13 +55,13 @@ export default function ModuleDetailPage({ params }: { params: Promise<{ slug: s
           </div>
           <div className="flex-1">
             <div className="text-sm font-medium mb-1" style={{ color: 'var(--muted-foreground)' }}>
-              {t('Módulo', 'Module')} {module.order} de 10
+              {t('Módulo', 'Module')} {module.order} {t('de', 'of')} 10
             </div>
             <h1 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: 'var(--foreground)' }}>
-              {module.title}
+              {(language === 'en' && module.titleEn) ? module.titleEn : module.title}
             </h1>
             <p className="mb-4" style={{ color: 'var(--muted-foreground)' }}>
-              {module.description}
+              {(language === 'en' && module.descriptionEn) ? module.descriptionEn : module.description}
             </p>
             <div className="flex flex-wrap gap-4 text-sm" style={{ color: 'var(--muted-foreground)' }}>
               <span className="flex items-center gap-1"><Clock size={14} /> {module.estimatedHours}h</span>
@@ -135,10 +135,10 @@ export default function ModuleDetailPage({ params }: { params: Promise<{ slug: s
                   </span>
                 </div>
                 <div className="font-semibold" style={{ color: 'var(--foreground)' }}>
-                  {lesson.title}
+                  {(language === 'en' && lesson.titleEn) ? lesson.titleEn : lesson.title}
                 </div>
                 <div className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>
-                  {lesson.description}
+                  {(language === 'en' && lesson.descriptionEn) ? lesson.descriptionEn : lesson.description}
                 </div>
               </div>
 

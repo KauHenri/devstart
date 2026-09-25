@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { Play, RotateCcw, ExternalLink, Loader2 } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CodeEditorProps {
   initialCode?: string;
@@ -40,6 +41,7 @@ export function CodeEditor({
   const [isRunning, setIsRunning] = useState(false);
   const [pyodideStatus, setPyodideStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const { resolvedTheme } = useTheme();
+  const { t } = useLanguage();
   const editorRef = useRef<unknown>(null);
 
   // Load Pyodide
@@ -118,7 +120,7 @@ sys.stderr = _captured_output
       try {
         await window.pyodide.runPythonAsync(code);
         capturedOutput = String((window.pyodide.globals.get('_captured_output') as any).getvalue());
-        setOutput(capturedOutput || '(sem saída)');
+        setOutput(capturedOutput || t('(sem saída)', '(no output)'));
         setError(null);
         onRun?.(code, capturedOutput, null);
       } catch (pyError) {
@@ -139,7 +141,6 @@ sys.stderr = _captured_output
   };
 
   const openInVSCode = () => {
-    const encoded = encodeURIComponent(code);
     const blob = new Blob([code], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -179,7 +180,7 @@ sys.stderr = _captured_output
         <div className="flex items-center gap-2">
           {pyodideStatus === 'loading' && (
             <span className="text-xs flex items-center gap-1" style={{ color: '#64748b' }}>
-              <Loader2 size={12} className="animate-spin" /> Carregando Python...
+              <Loader2 size={12} className="animate-spin" /> {t('Carregando Python...', 'Loading Python...')}
             </span>
           )}
           <button
@@ -187,7 +188,7 @@ sys.stderr = _captured_output
             disabled={readOnly}
             className="p-1.5 rounded transition-colors hover:bg-white/10"
             style={{ color: '#94a3b8' }}
-            title="Resetar código"
+            title={t('Resetar código', 'Reset code')}
           >
             <RotateCcw size={14} />
           </button>
@@ -195,7 +196,7 @@ sys.stderr = _captured_output
             onClick={openInVSCode}
             className="p-1.5 rounded transition-colors hover:bg-white/10"
             style={{ color: '#94a3b8' }}
-            title="Baixar e abrir no VSCode"
+            title={t('Baixar e abrir no VSCode', 'Download and open in VSCode')}
           >
             <ExternalLink size={14} />
           </button>
@@ -209,9 +210,9 @@ sys.stderr = _captured_output
             }}
           >
             {isRunning ? (
-              <><Loader2 size={12} className="animate-spin" /> Executando...</>
+              <><Loader2 size={12} className="animate-spin" /> {t('Executando...', 'Running...')}</>
             ) : (
-              <><Play size={12} /> Executar</>
+              <><Play size={12} /> {t('Executar', 'Run')}</>
             )}
           </button>
         </div>
@@ -257,7 +258,7 @@ sys.stderr = _captured_output
               color: error ? '#f87171' : '#4ade80',
             }}
           >
-            {error ? '❌ Erro' : '✅ Saída'}
+            {error ? t('❌ Erro', '❌ Error') : t('✅ Saída', '✅ Output')}
           </div>
           <pre
             className="p-4 text-sm font-mono overflow-x-auto"

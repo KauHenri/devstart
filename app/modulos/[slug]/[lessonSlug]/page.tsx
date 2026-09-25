@@ -31,7 +31,7 @@ export default function LessonPage({
   if (!lesson) notFound();
 
   const { progress, completeLesson, completeExercise, addXP } = useProgress();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const isCompleted = progress.completedLessons.includes(lesson.id);
   const [showHint, setShowHint] = useState(false);
@@ -42,7 +42,7 @@ export default function LessonPage({
   const prevLesson = lessonIndex > 0 ? module.lessons[lessonIndex - 1] : null;
   const nextLesson = lessonIndex < module.lessons.length - 1 ? module.lessons[lessonIndex + 1] : null;
 
-  const content = getLessonContent(lesson.id);
+  const content = getLessonContent(lesson.id, language as 'pt' | 'en');
   const exercises = EXERCISES.filter(e => e.lessonId === lesson.id);
   const quizData = QUIZZES.find(q => q.lessonId === lesson.id);
 
@@ -102,9 +102,13 @@ export default function LessonPage({
       <div className="flex items-center gap-2 text-sm mb-6" style={{ color: 'var(--muted-foreground)' }}>
         <Link href="/modulos" className="hover:opacity-70">{t('Módulos', 'Modules')}</Link>
         <span>/</span>
-        <Link href={`/modulos/${module.slug}`} className="hover:opacity-70">{module.title}</Link>
+        <Link href={`/modulos/${module.slug}`} className="hover:opacity-70">
+          {(language === 'en' && module.titleEn) ? module.titleEn : module.title}
+        </Link>
         <span>/</span>
-        <span style={{ color: 'var(--foreground)' }}>{lesson.title}</span>
+        <span style={{ color: 'var(--foreground)' }}>
+          {(language === 'en' && lesson.titleEn) ? lesson.titleEn : lesson.title}
+        </span>
       </div>
 
       {/* Lesson header */}
@@ -112,7 +116,7 @@ export default function LessonPage({
         <div className="flex items-center gap-2 mb-2">
           <LessonTypeIcon type={lesson.type} />
           <span className="text-xs font-medium" style={{ color: 'var(--muted-foreground)' }}>
-            Aula {lesson.order} de {module.lessons.length}
+            {t('Aula', 'Lesson')} {lesson.order} {t('de', 'of')} {module.lessons.length}
           </span>
           <span className="flex items-center gap-1 text-xs" style={{ color: 'var(--muted-foreground)' }}>
             <Clock size={12} /> {lesson.estimatedMinutes} min
@@ -127,9 +131,11 @@ export default function LessonPage({
           )}
         </div>
         <h1 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>
-          {lesson.title}
+          {(language === 'en' && lesson.titleEn) ? lesson.titleEn : lesson.title}
         </h1>
-        <p className="mt-2" style={{ color: 'var(--muted-foreground)' }}>{lesson.description}</p>
+        <p className="mt-2" style={{ color: 'var(--muted-foreground)' }}>
+          {(language === 'en' && lesson.descriptionEn) ? lesson.descriptionEn : lesson.description}
+        </p>
       </div>
 
       {/* Lesson Content */}
@@ -198,7 +204,7 @@ export default function LessonPage({
                                 ? '#eab308' : '#ef4444',
                           }}
                         >
-                          {exercise.difficulty === 'easy' ? '🟢 Fácil' : exercise.difficulty === 'medium' ? '🟡 Médio' : '🔴 Difícil'}
+                          {exercise.difficulty === 'easy' ? t('🟢 Fácil', '🟢 Easy') : exercise.difficulty === 'medium' ? t('🟡 Médio', '🟡 Medium') : t('🔴 Difícil', '🔴 Hard')}
                         </span>
                         <span className="text-xs font-medium" style={{ color: 'var(--primary)' }}>
                           +{exercise.xpReward} XP
@@ -210,43 +216,47 @@ export default function LessonPage({
                         )}
                       </div>
                       <h3 className="font-bold" style={{ color: 'var(--foreground)' }}>
-                        Exercício {idx + 1}: {exercise.title}
+                        {t('Exercício', 'Exercise')} {idx + 1}: {(language === 'en' && exercise.titleEn) ? exercise.titleEn : exercise.title}
                       </h3>
                     </div>
                   </div>
                   <p className="text-sm mb-4" style={{ color: 'var(--muted-foreground)' }}>
-                    {exercise.description}
+                    {(language === 'en' && exercise.descriptionEn) ? exercise.descriptionEn : exercise.description}
                   </p>
 
                   {/* Hints */}
-                  {exercise.hints.length > 0 && (
-                    <div className="mb-4">
-                      {!showHint || hintIndex !== idx ? (
-                        <button
-                          onClick={() => { setShowHint(true); setHintIndex(idx); }}
-                          className="flex items-center gap-1.5 text-xs font-medium hover:opacity-70 transition-opacity"
-                          style={{ color: 'var(--primary)' }}
-                        >
-                          <Lightbulb size={14} /> {t('Ver dica', 'See hint')}
-                        </button>
-                      ) : (
-                        <div
-                          className="flex items-start gap-2 p-3 rounded-xl text-sm"
-                          style={{ background: 'rgba(99,102,241,0.1)', color: 'var(--foreground)' }}
-                        >
-                          <Lightbulb size={16} style={{ color: 'var(--primary)' }} className="shrink-0 mt-0.5" />
-                          <span>{exercise.hints[0]}</span>
+                  {(() => {
+                    const activeHints = (language === 'en' && exercise.hintsEn && exercise.hintsEn.length > 0) ? exercise.hintsEn : exercise.hints;
+                    if (activeHints.length === 0) return null;
+                    return (
+                      <div className="mb-4">
+                        {!showHint || hintIndex !== idx ? (
                           <button
-                            onClick={() => setShowHint(false)}
-                            className="ml-auto hover:opacity-70"
-                            style={{ color: 'var(--muted-foreground)' }}
+                            onClick={() => { setShowHint(true); setHintIndex(idx); }}
+                            className="flex items-center gap-1.5 text-xs font-medium hover:opacity-70 transition-opacity"
+                            style={{ color: 'var(--primary)' }}
                           >
-                            <X size={14} />
+                            <Lightbulb size={14} /> {t('Ver dica', 'See hint')}
                           </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                        ) : (
+                          <div
+                            className="flex items-start gap-2 p-3 rounded-xl text-sm"
+                            style={{ background: 'rgba(99,102,241,0.1)', color: 'var(--foreground)' }}
+                          >
+                            <Lightbulb size={16} style={{ color: 'var(--primary)' }} className="shrink-0 mt-0.5" />
+                            <span>{activeHints[0]}</span>
+                            <button
+                              onClick={() => setShowHint(false)}
+                              className="ml-auto hover:opacity-70"
+                              style={{ color: 'var(--muted-foreground)' }}
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 {/* Code Editor */}
@@ -379,7 +389,7 @@ export default function LessonPage({
             className="flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-medium transition-colors hover:opacity-80"
             style={{ background: 'var(--card)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
           >
-            <ArrowLeft size={16} /> {prevLesson.title}
+            <ArrowLeft size={16} /> {(language === 'en' && prevLesson.titleEn) ? prevLesson.titleEn : prevLesson.title}
           </Link>
         ) : (
           <Link
@@ -397,7 +407,7 @@ export default function LessonPage({
             className="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-white transition-transform hover:scale-105"
             style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}
           >
-            {nextLesson.title} <ArrowRight size={16} />
+            {(language === 'en' && nextLesson.titleEn) ? nextLesson.titleEn : nextLesson.title} <ArrowRight size={16} />
           </Link>
         )}
       </div>
@@ -406,24 +416,25 @@ export default function LessonPage({
 }
 
 function LessonTypeIcon({ type }: { type: string }) {
+  const { language } = useLanguage();
   const icons: Record<string, React.ReactNode> = {
     theory: <BookOpen size={14} />,
     exercise: <Code size={14} />,
     quiz: <HelpCircle size={14} />,
     project: <FolderKanban size={14} />,
   };
-  const labels: Record<string, string> = {
-    theory: 'Teoria',
-    exercise: 'Exercício',
-    quiz: 'Quiz',
-    project: 'Projeto',
+  const labels: Record<string, { pt: string; en: string }> = {
+    theory: { pt: 'Teoria', en: 'Theory' },
+    exercise: { pt: 'Exercício', en: 'Exercise' },
+    quiz: { pt: 'Quiz', en: 'Quiz' },
+    project: { pt: 'Projeto', en: 'Project' },
   };
   return (
     <span
       className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium"
       style={{ background: 'var(--muted)', color: 'var(--muted-foreground)' }}
     >
-      {icons[type]} {labels[type]}
+      {icons[type]} {labels[type]?.[language as 'pt' | 'en'] || labels[type]?.pt}
     </span>
   );
 }

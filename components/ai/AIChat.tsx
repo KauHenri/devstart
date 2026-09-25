@@ -6,7 +6,23 @@ import { ChatMessage } from '@/lib/types';
 import { useProgress } from '@/contexts/ProgressContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-const SYSTEM_PROMPT = `Você é o DevBot, assistente de IA da plataforma DevStart — uma plataforma de aprendizado de programação em Python. 
+function getSystemPrompt(lang: 'pt' | 'en') {
+  if (lang === 'en') {
+    return `You are DevBot, the AI assistant for DevStart — a Python and programming logic learning platform.
+
+Your role is to be an exceptional pedagogical tutor. Follow these guidelines:
+1. TEACH, don't give away answers: When the student asks for help on exercises, provide hints and guide their thinking. Never give the direct solution. Use Socratic questioning.
+2. ADAPT your language to the student's level (beginner by default).
+3. USE simple examples, everyday analogies, and metaphors to explain complex concepts.
+4. PRAISE progress and encourage the student when they succeed.
+5. When showing Python code, use markdown code blocks.
+6. Always reply in English.
+7. Be friendly, patient, and encouraging — never condescending.
+8. Context: the student is learning Programming Logic and Python from zero to advanced.
+
+Remember: your goal is for the student to UNDERSTAND, not just copy answers.`;
+  }
+  return `Você é o DevBot, assistente de IA da plataforma DevStart — uma plataforma de aprendizado de programação em Python. 
 
 Seu papel é ser um tutor pedagógico excepcional. Siga estas diretrizes:
 
@@ -20,6 +36,7 @@ Seu papel é ser um tutor pedagógico excepcional. Siga estas diretrizes:
 8. Contexto: o aluno está aprendendo Lógica de Programação e Python do zero ao avançado.
 
 Lembre-se: seu objetivo é que o aluno ENTENDA, não apenas copie respostas.`;
+}
 
 export function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +47,7 @@ export function AIChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const { progress } = useProgress();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -40,15 +57,19 @@ export function AIChat() {
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
+      const greetingContent = language === 'en'
+        ? `Hello! 👋 I am **DevBot**, your programming tutor!\n\nI'm here to help you learn Python and Programming Logic. You can ask me about:\n\n- 🐍 Python concepts\n- 🧠 Logic and algorithms\n- 💡 Hints on exercises (no spoilers!)\n- 🐛 How to fix bugs in your code\n\nWhat would you like to learn today?`
+        : `Olá! 👋 Eu sou o **DevBot**, seu assistente de programação!\n\nEstou aqui para te ajudar a aprender Python e Lógica de Programação. Pode me perguntar sobre:\n\n- 🐍 Conceitos de Python\n- 🧠 Lógica e algoritmos\n- 💡 Dicas nos exercícios (sem spoilers!)\n- 🐛 Como corrigir erros no seu código\n\nO que você quer aprender hoje?`;
+
       const greeting: ChatMessage = {
         id: 'greeting',
         role: 'assistant',
-        content: `Olá! 👋 Eu sou o **DevBot**, seu assistente de programação!\n\nEstou aqui para te ajudar a aprender Python e Lógica de Programação. Pode me perguntar sobre:\n\n- 🐍 Conceitos de Python\n- 🧠 Lógica e algoritmos\n- 💡 Dicas nos exercícios (sem spoilers!)\n- 🐛 Como corrigir erros no seu código\n\nO que você quer aprender hoje?`,
+        content: greetingContent,
         timestamp: new Date(),
       };
       setMessages([greeting]);
     }
-  }, [isOpen]);
+  }, [isOpen, language]);
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
@@ -69,11 +90,11 @@ export function AIChat() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: [...messages.filter(m => !m.content.startsWith('❌ Ops!')), userMessage].map(m => ({
+          messages: [...messages.filter(m => !m.content.startsWith('❌ Ops!') && !m.content.startsWith('❌ Oops!')), userMessage].map(m => ({
             role: m.role,
             content: m.content,
           })),
-          systemPrompt: SYSTEM_PROMPT,
+          systemPrompt: getSystemPrompt(language as 'pt' | 'en'),
           context: {
             level: progress.level,
             completedLessons: progress.completedLessons.length,
@@ -98,7 +119,10 @@ export function AIChat() {
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: '❌ Ops! Ocorreu um erro ao conectar com a IA. Verifique se a API Key do Gemini está configurada corretamente nas variáveis de ambiente.',
+        content: t(
+          '❌ Ops! Ocorreu um erro ao conectar com a IA. Verifique se a API Key do Gemini está configurada corretamente nas variáveis de ambiente.',
+          '❌ Oops! An error occurred while connecting to the AI. Check if the Gemini API Key is configured in your environment variables.'
+        ),
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -125,7 +149,7 @@ export function AIChat() {
             background: 'linear-gradient(135deg, #6366f1, #a855f7)',
             boxShadow: '0 8px 32px rgba(99, 102, 241, 0.4)',
           }}
-          title="Abrir assistente de IA"
+          title={t('Abrir assistente de IA', 'Open AI assistant')}
         >
           <Bot size={24} className="text-white" />
         </button>
@@ -156,7 +180,7 @@ export function AIChat() {
               </div>
               <div>
                 <div className="text-white font-semibold text-sm">DevBot</div>
-                <div className="text-white/70 text-xs">Assistente de IA</div>
+                <div className="text-white/70 text-xs">{t('Assistente de IA', 'AI Assistant')}</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -228,7 +252,7 @@ export function AIChat() {
                       style={{ background: 'var(--muted)', color: 'var(--muted-foreground)' }}
                     >
                       <Loader2 size={14} className="animate-spin" />
-                      Pensando...
+                      {t('Pensando...', 'Thinking...')}
                     </div>
                   </div>
                 )}

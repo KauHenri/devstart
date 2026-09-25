@@ -61,7 +61,7 @@ export function Navbar() {
           {/* XP Bar + Level */}
           <div className="hidden sm:flex items-center gap-2">
             <div className="text-xs font-semibold" style={{ color: 'var(--primary)' }}>
-              Nv.{progress.level}
+              {t('Nv.', 'Lv.')}{progress.level}
             </div>
             <div className="w-24 h-2 rounded-full overflow-hidden" style={{ background: 'var(--muted)' }}>
               <div

@@ -147,10 +147,12 @@ export function calculateLevel(xp: number): number {
   return 1;
 }
 
-export function getLevelProgress(xp: number): { current: number; needed: number; percentage: number; levelTitle: string } {
+export function getLevelProgress(xp: number, lang: 'pt' | 'en' = 'pt'): { current: number; needed: number; percentage: number; levelTitle: string } {
   const thresholds = [0, 200, 500, 1000, 1800, 3000, 4500, 6500, 9000, 12000, 16000];
   const level = calculateLevel(xp);
-  const levelTitles = ['', 'Iniciante', 'Aprendiz', 'Desenvolvedor', 'Programador', 'Expert', 'Sênior', 'Mestre', 'Arquiteto', 'Guru', 'Lenda'];
+  const levelTitlesPt = ['', 'Iniciante', 'Aprendiz', 'Desenvolvedor', 'Programador', 'Expert', 'Sênior', 'Mestre', 'Arquiteto', 'Guru', 'Lenda'];
+  const levelTitlesEn = ['', 'Beginner', 'Apprentice', 'Developer', 'Programmer', 'Expert', 'Senior', 'Master', 'Architect', 'Guru', 'Legend'];
+  const titles = lang === 'en' ? levelTitlesEn : levelTitlesPt;
   
   const currentThreshold = thresholds[level - 1] || 0;
   const nextThreshold = thresholds[level] || thresholds[thresholds.length - 1];
@@ -158,7 +160,7 @@ export function getLevelProgress(xp: number): { current: number; needed: number;
   const needed = nextThreshold - currentThreshold;
   const percentage = Math.min(100, Math.round((current / needed) * 100));
 
-  return { current, needed, percentage, levelTitle: levelTitles[level] || 'Lenda' };
+  return { current, needed, percentage, levelTitle: titles[level] || (lang === 'en' ? 'Legend' : 'Lenda') };
 }
 
 export function checkAchievements(progress: UserProgress, allAchievements: Achievement[]): Achievement[] {

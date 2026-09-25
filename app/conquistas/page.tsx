@@ -7,7 +7,7 @@ import { Trophy } from 'lucide-react';
 
 export default function ConquistasPage() {
   const { progress } = useProgress();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const unlocked = ACHIEVEMENTS.filter(a => progress.achievements.includes(a.id));
   const locked = ACHIEVEMENTS.filter(a => !progress.achievements.includes(a.id));
@@ -52,8 +52,12 @@ export default function ConquistasPage() {
               >
                 <span className="text-3xl">{a.icon}</span>
                 <div>
-                  <div className="font-bold" style={{ color: 'var(--foreground)' }}>{a.title}</div>
-                  <div className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{a.description}</div>
+                  <div className="font-bold" style={{ color: 'var(--foreground)' }}>
+                    {(language === 'en' && a.titleEn) ? a.titleEn : a.title}
+                  </div>
+                  <div className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
+                    {(language === 'en' && a.descriptionEn) ? a.descriptionEn : a.description}
+                  </div>
                   <div className="text-xs font-semibold mt-1" style={{ color: '#f59e0b' }}>+{a.xpReward} XP</div>
                 </div>
               </div>
@@ -80,8 +84,12 @@ export default function ConquistasPage() {
               >
                 <span className="text-3xl grayscale">{a.icon}</span>
                 <div>
-                  <div className="font-bold" style={{ color: 'var(--foreground)' }}>{a.title}</div>
-                  <div className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{a.description}</div>
+                  <div className="font-bold" style={{ color: 'var(--foreground)' }}>
+                    {(language === 'en' && a.titleEn) ? a.titleEn : a.title}
+                  </div>
+                  <div className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
+                    {(language === 'en' && a.descriptionEn) ? a.descriptionEn : a.description}
+                  </div>
                   <div className="text-xs font-semibold mt-1" style={{ color: 'var(--muted-foreground)' }}>+{a.xpReward} XP</div>
                 </div>
               </div>

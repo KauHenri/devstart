@@ -8,7 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ModulosPage() {
   const { progress } = useProgress();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const totalLessons = MODULES.reduce((acc, m) => acc + m.lessons.length, 0);
   const totalHours = MODULES.reduce((acc, m) => acc + m.estimatedHours, 0);
@@ -83,10 +83,10 @@ export default function ModulosPage() {
                   )}
                 </div>
                 <h2 className="font-bold text-lg leading-tight mb-1" style={{ color: 'var(--foreground)' }}>
-                  {module.title}
+                  {(language === 'en' && module.titleEn) ? module.titleEn : module.title}
                 </h2>
                 <p className="text-sm mb-3 line-clamp-1" style={{ color: 'var(--muted-foreground)' }}>
-                  {module.description}
+                  {(language === 'en' && module.descriptionEn) ? module.descriptionEn : module.description}
                 </p>
                 <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--muted-foreground)' }}>
                   <span className="flex items-center gap-1"><Clock size={12} /> {module.estimatedHours}h</span>

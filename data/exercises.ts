@@ -5,12 +5,15 @@ export interface ExerciseData {
   id: string;
   lessonId: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   difficulty: 'easy' | 'medium' | 'hard';
   starterCode: string;
   solution: string;
   expectedOutput: string;
   hints: string[];
+  hintsEn?: string[];
   xpReward: number;
 }
 
@@ -26,7 +29,9 @@ export const EXERCISES: ExerciseData[] = [
     id: 'ex-l1-3-1',
     lessonId: 'l1-3',
     title: 'Cartão de Apresentação',
+    titleEn: 'Business Card',
     description: 'Crie quatro variáveis: nome ("Guilherme"), idade (25), cidade ("Curitiba") e altura (1.82). Depois exiba cada uma em uma linha com o formato indicado.',
+    descriptionEn: 'Create four variables: nome ("Guilherme"), idade (25), cidade ("Curitiba"), and altura (1.82). Then print each on a line with the indicated format.',
     difficulty: 'easy',
     starterCode: py`# Crie suas variáveis e use print() para exibir
 # Formato esperado:
@@ -55,13 +60,20 @@ Altura: 1.82 m`,
       'Números inteiros não levam aspas nem pontos: idade = 25',
       'Use vírgulas dentro do print() para separar rótulos e variáveis: print("Nome:", nome)',
     ],
+    hintsEn: [
+          "Strings require single or double quotes: nome = \"Guilherme\"",
+          "Integers take no quotes or decimal points: idade = 25",
+          "Use commas inside print() to separate labels and variables: print(\"Nome:\", nome)"
+    ],
     xpReward: 30,
   },
   {
     id: 'ex-l1-3-2',
     lessonId: 'l1-3',
     title: 'Conversor de Idade em Dias',
+    titleEn: 'Age to Days Converter',
     description: 'Crie uma variável "anos" com valor 20. Calcule o total aproximado de dias vividos (considerando cada ano com 365 dias) e exiba "Total de dias: X".',
+    descriptionEn: 'Create a variable "anos" with value 20. Calculate the approximate total of days lived (assuming 365 days per year) and display "Total de dias: X".',
     difficulty: 'medium',
     starterCode: py`anos = 20
 
@@ -77,6 +89,11 @@ print("Total de dias:", dias)`,
       'Armazene o cálculo em uma variável como dias = anos * 365',
       'Exiba com print("Total de dias:", dias)',
     ],
+    hintsEn: [
+          "Multiply the anos variable by 365 using the * operator",
+          "Store the calculation in a variable such as dias = anos * 365",
+          "Print with print(\"Total de dias:\", dias)"
+    ],
     xpReward: 40,
   },
 
@@ -85,7 +102,9 @@ print("Total de dias:", dias)`,
     id: 'ex-l1-4-1',
     lessonId: 'l1-4',
     title: 'Verificador de Maioridade',
+    titleEn: 'Legal Age Verifier',
     description: 'Dada a variável idade = 17, crie uma estrutura if/else que imprima "Maior de idade" se tiver 18 anos ou mais, ou "Menor de idade" caso contrário.',
+    descriptionEn: 'Given idade = 17, create an if/else structure that prints "Maior de idade" if 18 or older, or "Menor de idade" otherwise.',
     difficulty: 'easy',
     starterCode: py`idade = 17
 
@@ -103,13 +122,20 @@ else:
       'Lembre-se dos dois-pontos (:) ao final das linhas do if e do else',
       'Indente o bloco interno com 4 espaços antes do comando print()',
     ],
+    hintsEn: [
+          "The test condition is idade >= 18",
+          "Remember colons (:) at the end of if and else statements",
+          "Indent the inner block with 4 spaces before the print() call"
+    ],
     xpReward: 40,
   },
   {
     id: 'ex-l1-4-2',
     lessonId: 'l1-4',
     title: 'Par ou Ímpar',
+    titleEn: 'Even or Odd',
     description: 'Dado o número 14, verifique se ele é par ou ímpar utilizando o operador de resto (%). Se o resto da divisão por 2 for 0, imprima "Par", senão imprima "Ímpar".',
+    descriptionEn: 'Given number 14, check whether it is even or odd using the modulo operator (%). If division remainder by 2 is 0, print "Par", else print "Ímpar".',
     difficulty: 'medium',
     starterCode: py`numero = 14
 
@@ -127,6 +153,11 @@ else:
       'Use o operador de igualdade dupla == para comparar com zero',
       'Se numero % 2 == 0 então o número é divisível por 2 (par)',
     ],
+    hintsEn: [
+          "The % operator returns the remainder of division: numero % 2",
+          "Use equality comparison == to compare with zero",
+          "If numero % 2 == 0 then the number is divisible by 2 (even)"
+    ],
     xpReward: 50,
   },
 
@@ -135,7 +166,9 @@ else:
     id: 'ex-l1-5-1',
     lessonId: 'l1-5',
     title: 'Contagem Simples',
+    titleEn: 'Simple Counting',
     description: 'Utilize um loop for com a função range() para exibir os números de 1 até 5, um por linha.',
+    descriptionEn: 'Use a for loop with the range() function to display numbers from 1 to 5, one per line.',
     difficulty: 'easy',
     starterCode: py`# Imprima os números de 1 a 5 usando for e range:
 `,
@@ -151,13 +184,20 @@ else:
       'A variável de iteração (ex: i) assume cada valor a cada volta do laço',
       'Basta dar print(i) dentro do laço',
     ],
+    hintsEn: [
+          "The range(start, stop) function is exclusive on stop: to reach 5, use range(1, 6)",
+          "The iteration variable takes each value on each loop cycle",
+          "Simply print(i) inside the loop"
+    ],
     xpReward: 40,
   },
   {
     id: 'ex-l1-5-2',
     lessonId: 'l1-5',
     title: 'Somatório de 1 a 10',
+    titleEn: 'Sum from 1 to 10',
     description: 'Calcule a soma acumulada de todos os números inteiros de 1 até 10 usando um laço for e imprima "Soma total: X".',
+    descriptionEn: 'Calculate the accumulated sum of all integers from 1 to 10 using a for loop and print "Soma total: X".',
     difficulty: 'medium',
     starterCode: py`# Crie uma variável acumuladora e calcule a soma de 1 até 10:
 `,
@@ -171,6 +211,11 @@ print("Soma total:", total)`,
       'Percorra com for n in range(1, 11):',
       'Acrescente o valor com total += n e exiba após o término do laço',
     ],
+    hintsEn: [
+          "Initialize a variable before the loop: total = 0",
+          "Iterate with for n in range(1, 11):",
+          "Add the value with total += n and display it after the loop"
+    ],
     xpReward: 50,
   },
 
@@ -179,7 +224,9 @@ print("Soma total:", total)`,
     id: 'ex-l1-8-1',
     lessonId: 'l1-8',
     title: 'Classificador de Triângulos',
+    titleEn: 'Triangle Classifier',
     description: 'Dados os lados a=5, b=5 e c=5, verifique se o triângulo é "Equilátero" (3 lados iguais), "Isósceles" (2 lados iguais) ou "Escaleno" (todos diferentes).',
+    descriptionEn: 'Given sides a=5, b=5, and c=5, check if the triangle is "Equilátero" (3 equal sides), "Isósceles" (2 equal sides), or "Escaleno" (all different).',
     difficulty: 'medium',
     starterCode: py`a = 5
 b = 5
@@ -203,6 +250,11 @@ else:
       'Use elif para verificar se pelo menos dois lados são iguais com or',
       'O else cobrirá o caso em que todos os três lados são distintos',
     ],
+    hintsEn: [
+          "In Python you can chain comparisons: a == b == c for three equal values",
+          "Use elif to check if at least two sides are equal with or",
+          "The else branch covers the case where all three sides differ"
+    ],
     xpReward: 60,
   },
 
@@ -215,7 +267,9 @@ else:
     id: 'ex-l2-3-1',
     lessonId: 'l2-3',
     title: 'Cálculo de Desconto Comercial',
+    titleEn: 'Commercial Discount Calculation',
     description: 'Dado preco_original = 200 e desconto_pct = 15, calcule o valor economizado e o preco_final. Exiba exatamente as 4 linhas do gabarito.',
+    descriptionEn: 'Given preco_original = 200 and desconto_pct = 15, calculate the amount saved and preco_final. Display the exact 4 lines of expected output.',
     difficulty: 'easy',
     starterCode: py`preco_original = 200
 desconto_pct = 15
@@ -241,13 +295,20 @@ Preco final: R$ 170.0`,
       'preco_final = preco_original - desconto',
       'Confira os textos exatos nos prints',
     ],
+    hintsEn: [
+          "desconto = preco_original * (desconto_pct / 100)",
+          "preco_final = preco_original - desconto",
+          "Check the exact text in prints"
+    ],
     xpReward: 40,
   },
   {
     id: 'ex-l2-3-2',
     lessonId: 'l2-3',
     title: 'Troca de Variáveis Pythônica',
+    titleEn: 'Pythonic Variable Swap',
     description: 'Dadas as variáveis x = 100 e y = 200, troque os valores entre elas em uma única linha usando a técnica pythônica de atribuição múltipla.',
+    descriptionEn: 'Given variables x = 100 and y = 200, swap their values in a single line using Python multiple assignment.',
     difficulty: 'medium',
     starterCode: py`x = 100
 y = 200
@@ -270,6 +331,11 @@ y = 100`,
       'Utilize o desempacotamento de tuplas: a, b = b, a',
       'Escreva x, y = y, x',
     ],
+    hintsEn: [
+          "In Python, you do not need a temporary variable!",
+          "Use tuple unpacking: a, b = b, a",
+          "Write x, y = y, x"
+    ],
     xpReward: 50,
   },
 
@@ -278,7 +344,9 @@ y = 100`,
     id: 'ex-l2-4-1',
     lessonId: 'l2-4',
     title: 'Conversão e Coerção de Tipos',
+    titleEn: 'Type Conversion and Coercion',
     description: 'Dada a string valor_str = "42", converta-a para inteiro, some 8 ao valor, e exiba "Resultado: 50" e o tipo da variável convertida.',
+    descriptionEn: 'Given string valor_str = "42", convert it to an integer, add 8, and display "Resultado: 50" along with the type of the converted variable.',
     difficulty: 'easy',
     starterCode: py`valor_str = "42"
 
@@ -297,6 +365,11 @@ print(type(numero))`,
       'Adicione 8 ao resultado numérico',
       'Use type(numero) para inspecionar o tipo',
     ],
+    hintsEn: [
+          "Use built-in int(valor_str) to convert text to number",
+          "Add 8 to the numeric result",
+          "Use type(numero) to inspect the type"
+    ],
     xpReward: 40,
   },
 
@@ -305,7 +378,9 @@ print(type(numero))`,
     id: 'ex-l2-5-1',
     lessonId: 'l2-5',
     title: 'Operadores Aritméticos Completos',
+    titleEn: 'Full Arithmetic Operators',
     description: 'Com a = 17 e b = 5, exiba o quociente da divisão inteira (//), o resto da divisão (%) e a potência (a elevado a b).',
+    descriptionEn: 'With a = 17 and b = 5, display the floor division quotient (//), remainder (%), and power (a raised to b).',
     difficulty: 'easy',
     starterCode: py`a = 17
 b = 5
@@ -329,6 +404,11 @@ Potencia: 1419857`,
       '% calcula o resto da divisão',
       '** calcula a exponenciação',
     ],
+    hintsEn: [
+          "// is integer floor division (discards fractional part)",
+          "% calculates division remainder",
+          "** calculates exponentiation"
+    ],
     xpReward: 40,
   },
 
@@ -337,7 +417,9 @@ Potencia: 1419857`,
     id: 'ex-l2-6-1',
     lessonId: 'l2-6',
     title: 'Limpeza e Métodos de String',
+    titleEn: 'String Cleaning and Methods',
     description: 'Dada a string suja texto = "  python e incrivel  ", use .strip() para remover espaços e .upper() para torná-la maiúscula. Exiba o resultado final.',
+    descriptionEn: 'Given dirty string texto = "  python e incrivel  ", use .strip() to remove spaces and .upper() to uppercase it. Display the result.',
     difficulty: 'easy',
     starterCode: py`texto = "  python e incrivel  "
 
@@ -352,13 +434,20 @@ print(limpo)`,
       'strip() retira espaços do início e fim',
       'upper() converte todas as letras para maiúsculas',
     ],
+    hintsEn: [
+          "String methods can be chained: texto.strip().upper()",
+          "strip() strips whitespace from start and end",
+          "upper() converts letters to uppercase"
+    ],
     xpReward: 40,
   },
   {
     id: 'ex-l2-6-2',
     lessonId: 'l2-6',
     title: 'Gerador de Email Corporativo',
+    titleEn: 'Corporate Email Generator',
     description: 'Dados nome = "Lucas" e sobrenome = "Mendes", gere o email no padrão: primeira letra do nome + sobrenome + "@empresa.com", tudo em minúsculas.',
+    descriptionEn: 'Given nome = "Lucas" and sobrenome = "Mendes", generate the email matching: first letter of name + surname + "@empresa.com", all in lowercase.',
     difficulty: 'medium',
     starterCode: py`nome = "Lucas"
 sobrenome = "Mendes"
@@ -375,13 +464,20 @@ print(email)`,
       'Concatene strings com o operador + ou usando f-strings',
       'Use .lower() para garantir que tudo fique em caixa baixa',
     ],
+    hintsEn: [
+      "nome[0].lower() retrieves the first letter",
+      "Concatenate strings or use f-string: f\"{nome[0].lower()}{sobrenome.lower()}@empresa.com\"",
+      "Use .lower() to ensure all lowercase",
+    ],
     xpReward: 50,
   },
   {
     id: 'ex-l2-6-3',
     lessonId: 'l2-6',
     title: 'Verificador de Palíndromo',
+    titleEn: 'Palindrome Verifier',
     description: 'Dada a palavra "radar", verifique se ela é um palíndromo (se lida da mesma forma de trás para frente) usando fatiamento de string. Imprima "Palíndromo: True".',
+    descriptionEn: 'Given word "radar", check if it is a palindrome using string slicing. Print "Palíndromo: True".',
     difficulty: 'hard',
     starterCode: py`palavra = "radar"
 
@@ -397,6 +493,11 @@ print("Palíndromo:", eh_palindromo)`,
       'Compare palavra == palavra[::-1]',
       'Exiba o booleano resultante com print',
     ],
+    hintsEn: [
+      "Slicing [::-1] reverses the string: palavra[::-1]",
+      "Compare palavra == palavra[::-1]",
+      "Display the resulting boolean with print",
+    ],
     xpReward: 60,
   },
 
@@ -405,7 +506,9 @@ print("Palíndromo:", eh_palindromo)`,
     id: 'ex-l2-7-1',
     lessonId: 'l2-7',
     title: 'Formatação Elegante com f-strings',
+    titleEn: 'Elegant Formatting with f-strings',
     description: 'Dados produto = "Notebook", preco = 3450.758 e quantidade = 2, exiba o total formatado com exatamente 2 casas decimais: "Total do Notebook: R$ 6901.52".',
+    descriptionEn: 'Given produto = "Notebook", preco = 3450.758, and quantidade = 2, display formatted total to 2 decimals: "Total do Notebook: R$ 6901.52".',
     difficulty: 'easy',
     starterCode: py`produto = "Notebook"
 preco = 3450.758
@@ -423,6 +526,10 @@ print(f"Total do {produto}: R$ {total:.2f}")`,
       'Multiplique preco * quantidade',
       'Na f-string use {total:.2f} para travar em duas casas decimais com arredondamento',
     ],
+    hintsEn: [
+          "Multiply preco * quantidade",
+          "In f-string use {total:.2f} to round and format to two decimal places"
+    ],
     xpReward: 40,
   },
 
@@ -435,7 +542,9 @@ print(f"Total do {produto}: R$ {total:.2f}")`,
     id: 'ex-l3-1-1',
     lessonId: 'l3-1',
     title: 'Classificação de Desempenho Escolar',
+    titleEn: 'Academic Performance Classification',
     description: 'Dada a nota = 8.2, classifique o aluno: >= 9.0 ("Excelente"), >= 7.0 ("Aprovado"), >= 5.0 ("Recuperação") ou < 5.0 ("Reprovado").',
+    descriptionEn: 'Given nota = 8.2, classify the student: >= 9.0 ("Excelente"), >= 7.0 ("Aprovado"), >= 5.0 ("Recuperação"), or < 5.0 ("Reprovado").',
     difficulty: 'easy',
     starterCode: py`nota = 8.2
 
@@ -457,6 +566,11 @@ else:
       'Use elif para a próxima faixa (>= 7.0)',
       'Como 8.2 é maior ou igual a 7.0, a saída esperada é Aprovado',
     ],
+    hintsEn: [
+          "Start checking the highest band (>= 9.0)",
+          "Use elif for the next threshold (>= 7.0)",
+          "Since 8.2 is >= 7.0, expected output is Aprovado"
+    ],
     xpReward: 40,
   },
 
@@ -465,7 +579,9 @@ else:
     id: 'ex-l3-2-1',
     lessonId: 'l3-2',
     title: 'Validação de Empréstimo',
+    titleEn: 'Loan Approval Validation',
     description: 'Um cliente com renda = 4500, score = 720 e nome_limpo = True solicita crédito. A aprovação exige (renda >= 4000 OU score >= 700) E nome_limpo ser True. Exiba "Empréstimo Aprovado: True".',
+    descriptionEn: 'A customer with renda = 4500, score = 720, and nome_limpo = True applies for credit. Approval requires (renda >= 4000 OR score >= 700) AND nome_limpo == True. Display "Empréstimo Aprovado: True".',
     difficulty: 'medium',
     starterCode: py`renda = 4500
 score = 720
@@ -485,6 +601,11 @@ print("Empréstimo Aprovado:", aprovado)`,
       'Conecte com a condição obrigatória usando and nome_limpo',
       'Exiba print("Empréstimo Aprovado:", aprovado)',
     ],
+    hintsEn: [
+          "Group alternative conditions in parentheses: (renda >= 4000 or score >= 700)",
+          "Connect with mandatory condition using and nome_limpo",
+          "Print with print(\"Empréstimo Aprovado:\", aprovado)"
+    ],
     xpReward: 50,
   },
 
@@ -493,7 +614,9 @@ print("Empréstimo Aprovado:", aprovado)`,
     id: 'ex-l3-3-1',
     lessonId: 'l3-3',
     title: 'Contagem Regressiva e Lançamento',
+    titleEn: 'Countdown and Launch',
     description: 'Faça uma contagem regressiva de 3 até 1 usando um loop while e ao final imprima "Decolagem autorizada!".',
+    descriptionEn: 'Make a countdown from 3 to 1 using a while loop and at the end print "Decolagem autorizada!".',
     difficulty: 'easy',
     starterCode: py`contador = 3
 
@@ -513,6 +636,11 @@ Decolagem autorizada!`,
       'Não esqueça de decrementar a variável a cada volta: contador -= 1',
       'O print("Decolagem autorizada!") deve ficar fora do loop',
     ],
+    hintsEn: [
+          "The while condition should be contador > 0",
+          "Remember to decrement each cycle: contador -= 1",
+          "The print(\"Decolagem autorizada!\") must stay outside the loop"
+    ],
     xpReward: 40,
   },
 
@@ -521,7 +649,9 @@ Decolagem autorizada!`,
     id: 'ex-l3-4-1',
     lessonId: 'l3-4',
     title: 'Tabuada do 8',
+    titleEn: 'Multiplication Table of 8',
     description: 'Gere a tabuada do número 8 (de 8 x 1 até 8 x 5) utilizando um laço for com range(1, 6).',
+    descriptionEn: 'Generate the multiplication table of 8 (from 8 x 1 to 8 x 5) using a for loop with range(1, 6).',
     difficulty: 'easy',
     starterCode: py`numero = 8
 
@@ -539,6 +669,10 @@ for i in range(1, 6):
       'range(1, 6) itera sobre os valores 1, 2, 3, 4, 5',
       'Use f-string para formatar: f"{numero} x {i} = {numero * i}"',
     ],
+    hintsEn: [
+          "range(1, 6) iterates over values 1, 2, 3, 4, 5",
+          "Use f-string to format: f\"{numero} x {i} = {numero * i}\""
+    ],
     xpReward: 40,
   },
 
@@ -547,7 +681,9 @@ for i in range(1, 6):
     id: 'ex-l3-5-1',
     lessonId: 'l3-5',
     title: 'Filtrando com continue',
+    titleEn: 'Filtering with continue',
     description: 'Percorra os números de 1 a 6. Se o número for par, pule para a próxima iteração com continue. Imprima apenas os ímpares.',
+    descriptionEn: 'Iterate over numbers from 1 to 6. If the number is even, skip to the next iteration with continue. Print only odd numbers.',
     difficulty: 'easy',
     starterCode: py`# Itere de 1 a 6 e pule os pares:
 `,
@@ -562,6 +698,10 @@ for i in range(1, 6):
       'Teste de paridade: n % 2 == 0',
       'A instrução continue encerra a volta atual imediatamente e vai para a próxima',
     ],
+    hintsEn: [
+          "Evenness check: n % 2 == 0",
+          "The continue statement exits current iteration immediately and moves to the next"
+    ],
     xpReward: 40,
   },
 
@@ -570,7 +710,9 @@ for i in range(1, 6):
     id: 'ex-l3-6-1',
     lessonId: 'l3-6',
     title: 'Mini Calculadora de Operações',
+    titleEn: 'Mini Operations Calculator',
     description: 'Dadas as variáveis num1 = 15, num2 = 3 e operacao = "/", execute a operação solicitada ("+", "-", "*", "/") e exiba o resultado: "Resultado: 5.0".',
+    descriptionEn: 'Given num1 = 15, num2 = 3, and operacao = "/", perform the requested operation ("+", "-", "*", "/") and display the result: "Resultado: 5.0".',
     difficulty: 'medium',
     starterCode: py`num1 = 15
 num2 = 3
@@ -597,6 +739,10 @@ print("Resultado:", res)`,
       'Estruture comparações com if operacao == "+": ... elif ...',
       'Exiba com print("Resultado:", res)',
     ],
+    hintsEn: [
+          "Structure comparisons with if operacao == \"+\": ... elif ...",
+          "Display with print(\"Resultado:\", res)"
+    ],
     xpReward: 50,
   },
 
@@ -609,7 +755,9 @@ print("Resultado:", res)`,
     id: 'ex-l4-1-1',
     lessonId: 'l4-1',
     title: 'Manipulação Básica de Lista',
+    titleEn: 'Basic List Manipulation',
     description: 'Dada a lista itens = ["Mouse", "Teclado", "Monitor"], exiba o primeiro elemento, o último elemento e a quantidade total de itens.',
+    descriptionEn: 'Given list itens = ["Mouse", "Teclado", "Monitor"], display the first element, the last element, and the total count of items.',
     difficulty: 'easy',
     starterCode: py`itens = ["Mouse", "Teclado", "Monitor"]
 
@@ -630,6 +778,11 @@ Total: 3`,
       'Último elemento em Python: itens[-1]',
       'Quantidade total de itens: len(itens)',
     ],
+    hintsEn: [
+      "First element: itens[0]",
+      "Last element: itens[-1]",
+      "Total items: len(itens)",
+    ],
     xpReward: 40,
   },
 
@@ -638,7 +791,9 @@ Total: 3`,
     id: 'ex-l4-2-1',
     lessonId: 'l4-2',
     title: 'Estatísticas de Notas',
+    titleEn: 'Grade Statistics',
     description: 'Dada a lista notas = [6.5, 8.0, 9.5], adicione a nota 7.0 usando .append(), e em seguida exiba a menor nota, a maior nota e a média com 2 casas decimais.',
+    descriptionEn: 'Given list notas = [6.5, 8.0, 9.5], add grade 7.0 using .append(), then display min grade, max grade, and average to 2 decimal places.',
     difficulty: 'medium',
     starterCode: py`notas = [6.5, 8.0, 9.5]
 
@@ -662,6 +817,11 @@ Media: 7.75`,
       'min() e max() obtêm os extremos',
       'media = sum(notas) / len(notas)',
     ],
+    hintsEn: [
+          "notas.append(7.0) inserts at the end of the list",
+          "min() and max() retrieve the extremes",
+          "media = sum(notas) / len(notas)"
+    ],
     xpReward: 50,
   },
 
@@ -670,7 +830,9 @@ Media: 7.75`,
     id: 'ex-l4-3-1',
     lessonId: 'l4-3',
     title: 'Desempacotamento de Coordenadas',
+    titleEn: 'Coordinate Unpacking',
     description: 'Dada a tupla ponto = (19.43, -99.13), desempacote as coordenadas nas variáveis latitude e longitude, e exiba no formato indicado.',
+    descriptionEn: 'Given tuple ponto = (19.43, -99.13), unpack coordinates into variables latitude and longitude, and display in the indicated format.',
     difficulty: 'easy',
     starterCode: py`ponto = (19.43, -99.13)
 
@@ -685,6 +847,10 @@ print(f"Latitude: {lat} | Longitude: {lon}")`,
       'Desempacotamento: lat, lon = ponto',
       'Use f-string com os nomes das variáveis para formatar a saída',
     ],
+    hintsEn: [
+          "Unpacking: lat, lon = ponto",
+          "Use f-strings with variable names to format the output"
+    ],
     xpReward: 40,
   },
 
@@ -693,7 +859,9 @@ print(f"Latitude: {lat} | Longitude: {lon}")`,
     id: 'ex-l4-4-1',
     lessonId: 'l4-4',
     title: 'Atualização de Perfil de Usuário',
+    titleEn: 'User Profile Update',
     description: 'Dado o dicionário usuario = {"nome": "Ana", "cargo": "Júnior", "ativo": True}, atualize o cargo para "Pleno", adicione a chave "salario": 6000 e exiba o dicionário.',
+    descriptionEn: 'Given dict usuario = {"nome": "Ana", "cargo": "Júnior", "ativo": True}, update cargo to "Pleno", add key "salario": 6000, and display the dictionary.',
     difficulty: 'easy',
     starterCode: py`usuario = {"nome": "Ana", "cargo": "Júnior", "ativo": True}
 
@@ -710,13 +878,20 @@ Salário: 6000`,
       'Para atualizar ou criar chave em dicionário: dicionario["chave"] = novo_valor',
       'Confira os prints solicitados',
     ],
+    hintsEn: [
+      'To update or create a key in a dict: usuario["cargo"] = "Pleno"',
+      'Add salary with usuario["salario"] = 6000',
+      'Check the requested print statements',
+    ],
     xpReward: 40,
   },
   {
     id: 'ex-l4-4-2',
     lessonId: 'l4-4',
     title: 'Contador de Frequência de Palavras',
+    titleEn: 'Word Frequency Counter',
     description: 'Dada a lista palavras = ["python", "java", "python", "go", "python", "java"], crie um dicionário contando quantas vezes cada linguagem aparece.',
+    descriptionEn: 'Given list palavras = ["python", "java", "python", "go", "python", "java"], create a dictionary counting how many times each language appears.',
     difficulty: 'medium',
     starterCode: py`palavras = ["python", "java", "python", "go", "python", "java"]
 
@@ -732,6 +907,10 @@ print(contagem)`,
       'Inicie um dicionário vazio: contagem = {}',
       'O método .get(chave, valor_padrao) é perfeito para contagens acumulativas: contagem.get(p, 0) + 1',
     ],
+    hintsEn: [
+          "Initialize an empty dictionary: contagem = {}",
+          "Method .get(key, default) is ideal for counting: contagem[p] = contagem.get(p, 0) + 1"
+    ],
     xpReward: 60,
   },
 
@@ -740,7 +919,9 @@ print(contagem)`,
     id: 'ex-l4-5-1',
     lessonId: 'l4-5',
     title: 'Eliminando Duplicatas',
+    titleEn: 'Eliminating Duplicates',
     description: 'Dada a lista emails = ["a@a.com", "b@b.com", "a@a.com", "c@c.com"], converta para set para eliminar duplicatas e exiba a quantidade de emails únicos.',
+    descriptionEn: 'Given list emails = ["a@a.com", "b@b.com", "a@a.com", "c@c.com"], convert to set to eliminate duplicates and display the count of unique emails.',
     difficulty: 'easy',
     starterCode: py`emails = ["a@a.com", "b@b.com", "a@a.com", "c@c.com"]
 
@@ -754,6 +935,10 @@ print("Emails únicos:", len(unicos))`,
       'set(emails) descarta automaticamente valores repetidos',
       'len(unicos) retorna a quantidade de itens únicos restantes',
     ],
+    hintsEn: [
+          "set(emails) automatically removes duplicates",
+          "len(unicos) returns count of remaining unique items"
+    ],
     xpReward: 40,
   },
 
@@ -762,7 +947,9 @@ print("Emails únicos:", len(unicos))`,
     id: 'ex-l4-6-1',
     lessonId: 'l4-6',
     title: 'Quadrados dos Números Pares',
+    titleEn: 'Squares of Even Numbers',
     description: 'Dada a lista numeros = [1, 2, 3, 4, 5, 6], utilize uma List Comprehension de linha única para gerar uma nova lista contendo os quadrados apenas dos números pares.',
+    descriptionEn: 'Given list numeros = [1, 2, 3, 4, 5, 6], use a single-line List Comprehension to generate a new list containing squares of even numbers only.',
     difficulty: 'medium',
     starterCode: py`numeros = [1, 2, 3, 4, 5, 6]
 
@@ -777,6 +964,11 @@ print(quadrados_pares)`,
       'Eleve ao quadrado com n ** 2',
       'Filtre os pares com if n % 2 == 0',
     ],
+    hintsEn: [
+      "Syntax: [expression for item in list if condition]",
+      "Square using n ** 2",
+      "Filter even numbers with if n % 2 == 0",
+    ],
     xpReward: 50,
   },
 
@@ -789,7 +981,9 @@ print(quadrados_pares)`,
     id: 'ex-l5-1-1',
     lessonId: 'l5-1',
     title: 'Função de Conversão Cambial',
+    titleEn: 'Currency Conversion Function',
     description: 'Defina uma função chamada converter_dolar(reais, cotacao=5.50) que retorne o valor correspondente em dólares arredondado com round(valor, 2). Teste com 110 reais.',
+    descriptionEn: 'Define a function converter_dolar(reais, cotacao=5.50) returning corresponding dollar value rounded with round(val, 2). Test with 110 reais.',
     difficulty: 'easy',
     starterCode: py`# Defina a função converter_dolar e chame com 110 reais:
 `,
@@ -804,6 +998,11 @@ print(f"Valor em Dólares: $ {resultado}")`,
       'Retorne o valor com a instrução return round(reais / cotacao, 2)',
       '110 dividido por 5.50 é exatamente 20.0',
     ],
+    hintsEn: [
+          "def converter_dolar(reais, cotacao=5.50):",
+          "Return value using return round(reais / cotacao, 2)",
+          "110 divided by 5.50 is exactly 20.0"
+    ],
     xpReward: 50,
   },
 
@@ -812,7 +1011,9 @@ print(f"Valor em Dólares: $ {resultado}")`,
     id: 'ex-l5-2-1',
     lessonId: 'l5-2',
     title: 'Somador Flexível com *args',
+    titleEn: 'Flexible Summer with *args',
     description: 'Crie uma função somar_tudo(*valores) que retorne a soma de todos os números passados. Execute e imprima a soma dos números 10, 20, 30 e 40.',
+    descriptionEn: 'Create a function somar_tudo(*valores) that returns the sum of all numbers passed. Call and print the sum of numbers 10, 20, 30, and 40.',
     difficulty: 'easy',
     starterCode: py`# Defina a função com *valores e teste:
 `,
@@ -825,6 +1026,10 @@ print("Soma total:", somar_tudo(10, 20, 30, 40))`,
       '*valores agrupa todos os argumentos posicionais em uma tupla',
       'A função nativa sum(valores) soma todos os itens da tupla',
     ],
+    hintsEn: [
+          "*valores bundles all positional arguments into a tuple",
+          "The built-in sum(valores) sums all items in the tuple"
+    ],
     xpReward: 50,
   },
 
@@ -833,7 +1038,9 @@ print("Soma total:", somar_tudo(10, 20, 30, 40))`,
     id: 'ex-l5-4-1',
     lessonId: 'l5-4',
     title: 'Ordenação com Lambda',
+    titleEn: 'Sorting with Lambda',
     description: 'Dada a lista de tuplas alunos = [("Bruno", 7.5), ("Alice", 9.8), ("Carlos", 6.0)], ordene a lista pela nota em ordem decrescente usando sorted() e uma expressão lambda.',
+    descriptionEn: 'Given list of tuples alunos = [("Bruno", 7.5), ("Alice", 9.8), ("Carlos", 6.0)], sort by grade in descending order using sorted() and a lambda expression.',
     difficulty: 'medium',
     starterCode: py`alunos = [("Bruno", 7.5), ("Alice", 9.8), ("Carlos", 6.0)]
 
@@ -847,6 +1054,10 @@ print(ordenados)`,
       'Use o parâmetro key=lambda a: a[1] para indicar que o critério é o segundo elemento (a nota)',
       'Adicione reverse=True para ordem decrescente',
     ],
+    hintsEn: [
+      "Use parameter key=lambda a: a[1] to sort by the second element (the grade)",
+      "Add reverse=True for descending order",
+    ],
     xpReward: 60,
   },
 
@@ -855,7 +1066,9 @@ print(ordenados)`,
     id: 'ex-l5-5-1',
     lessonId: 'l5-5',
     title: 'Fatorial Recursivo',
+    titleEn: 'Recursive Factorial',
     description: 'Implemente uma função recursiva fatorial(n) com caso base n <= 1 retornando 1. Calcule e exiba o fatorial de 5.',
+    descriptionEn: 'Implement a recursive function fatorial(n) with base case n <= 1 returning 1. Calculate and display the factorial of 5.',
     difficulty: 'medium',
     starterCode: py`# Implemente a função recursiva fatorial:
 `,
@@ -871,6 +1084,11 @@ print("5! =", fatorial(5))`,
       'Caso recursivo: return n * fatorial(n - 1)',
       '5 * 4 * 3 * 2 * 1 = 120',
     ],
+    hintsEn: [
+          "Base case: if n <= 1: return 1",
+          "Recursive case: return n * fatorial(n - 1)",
+          "5 * 4 * 3 * 2 * 1 = 120"
+    ],
     xpReward: 60,
   },
 
@@ -879,7 +1097,9 @@ print("5! =", fatorial(5))`,
     id: 'ex-l5-6-1',
     lessonId: 'l5-6',
     title: 'Detector de Números Primos',
+    titleEn: 'Prime Number Detector',
     description: 'Crie uma função eh_primo(n) que retorne True se n for primo e False se não for. Teste com os números 13 e 15.',
+    descriptionEn: 'Create a function eh_primo(n) that returns True if n is prime and False otherwise. Test with numbers 13 and 15.',
     difficulty: 'medium',
     starterCode: py`# Crie a função eh_primo e teste:
 `,
@@ -900,6 +1120,11 @@ print("15 é primo?", eh_primo(15))`,
       'Percorra divisores de 2 até a raiz quadrada de n',
       'Se n % i == 0, então possui divisor e não é primo',
     ],
+    hintsEn: [
+          "Numbers <= 1 are not prime",
+          "Check divisors from 2 up to the square root of n",
+          "If n % i == 0, it has a divisor and is not prime"
+    ],
     xpReward: 70,
   },
 
@@ -912,7 +1137,9 @@ print("15 é primo?", eh_primo(15))`,
     id: 'ex-l6-2-1',
     lessonId: 'l6-2',
     title: 'Classe Livro com Método Especial',
+    titleEn: 'Book Class with Special Method',
     description: 'Crie uma classe Livro com construtor __init__(self, titulo, autor) e o método mágico __str__(self) retornando "Livro: {titulo} por {autor}". Instancie com "Dom Casmurro" e "Machado de Assis" e dê print().',
+    descriptionEn: 'Create a Book class with constructor __init__(self, titulo, autor) and magic method __str__(self) returning "Livro: {titulo} por {autor}". Instantiate with "Dom Casmurro" and "Machado de Assis" and print it.',
     difficulty: 'easy',
     starterCode: py`# Crie a classe Livro com __init__ e __str__:
 `,
@@ -932,6 +1159,11 @@ print(obra)`,
       'O método __str__(self) deve retornar uma string',
       'Ao chamar print(obra), o Python executa o método __str__ do objeto',
     ],
+    hintsEn: [
+          "In __init__, store self.titulo = titulo and self.autor = autor",
+          "Method __str__(self) must return a string",
+          "When calling print(book), Python calls the __str__ method of the object"
+    ],
     xpReward: 50,
   },
 
@@ -940,7 +1172,9 @@ print(obra)`,
     id: 'ex-l6-3-1',
     lessonId: 'l6-3',
     title: 'Termômetro com @property',
+    titleEn: 'Thermometer with @property',
     description: 'Crie uma classe Termometro com atributo interno _celsius inicializado em 0. Crie o getter @property celsius e o setter @celsius.setter validando que a temperatura não pode ser inferior ao zero absoluto (-273.15). Teste atribuindo 25.',
+    descriptionEn: 'Create a Termometro class with internal attribute _celsius initialized to 0. Create getter @property celsius and setter @celsius.setter validating temperature cannot be below absolute zero (-273.15). Test by assigning 25.',
     difficulty: 'medium',
     starterCode: py`# Crie a classe Termometro com @property e @setter:
 `,
@@ -966,6 +1200,11 @@ print(f"Temperatura atual: {t.celsius}°C")`,
       'O decorador @property transforma o método em uma propriedade de leitura',
       'O decorador @celsius.setter é invocado na atribuição com o operador =',
     ],
+    hintsEn: [
+          "@property decorator turns method into a read property",
+          "The @celsius.setter decorator is invoked on assignment with =",
+          "Raise ValueError if val < -273.15"
+    ],
     xpReward: 60,
   },
 
@@ -974,7 +1213,9 @@ print(f"Temperatura atual: {t.celsius}°C")`,
     id: 'ex-l6-4-1',
     lessonId: 'l6-4',
     title: 'Hierarquia de Veículos com super()',
+    titleEn: 'Vehicle Hierarchy with super()',
     description: 'Crie a classe base Veiculo(marca, modelo) e a subclasse Carro que adiciona portas=4 usando super().__init__(). Crie um método exibir() que imprima "{marca} {modelo} com {portas} portas".',
+    descriptionEn: 'Create base class Veiculo(marca, modelo) and subclass Carro adding portas=4 using super().__init__(). Create an exibir() method printing "{marca} {modelo} com {portas} portas".',
     difficulty: 'easy',
     starterCode: py`# Crie a classe base Veiculo e a subclasse Carro:
 `,
@@ -998,6 +1239,10 @@ c.exibir()`,
       'class Carro(Veiculo): indica a herança',
       'super().__init__(marca, modelo) repassa os dados para o construtor pai',
     ],
+    hintsEn: [
+          "class Carro(Veiculo): denotes inheritance",
+          "super().__init__(marca, modelo) passes arguments to parent constructor"
+    ],
     xpReward: 50,
   },
 
@@ -1006,7 +1251,9 @@ c.exibir()`,
     id: 'ex-l6-5-1',
     lessonId: 'l6-5',
     title: 'Notificadores Polimórficos',
+    titleEn: 'Polymorphic Notifiers',
     description: 'Crie duas classes: NotificadorEmail e NotificadorSMS. Ambas devem ter o método enviar(mensagem). Percorra uma lista com instâncias de ambas invocando .enviar("Alerta do Sistema").',
+    descriptionEn: 'Create two classes: NotificadorEmail and NotificadorSMS. Both must have an enviar(mensagem) method. Iterate over a list with instances of both calling .enviar("Alerta do Sistema").',
     difficulty: 'medium',
     starterCode: py`# Implemente o polimorfismo entre os dois notificadores:
 `,
@@ -1027,6 +1274,10 @@ for n in notificadores:
       'Ambas as classes possuem o mesmo método enviar(self, msg)',
       'O loop trata os dois objetos da mesma maneira (polimorfismo)',
     ],
+    hintsEn: [
+          "Both classes have the same enviar(self, msg) method",
+          "The loop treats both objects uniformly (polymorphism)"
+    ],
     xpReward: 60,
   },
 
@@ -1039,7 +1290,9 @@ for n in notificadores:
     id: 'ex-l7-1-1',
     lessonId: 'l7-1',
     title: 'Conversor Numérico com Tratamento de Exceções',
+    titleEn: 'Numeric Converter with Exception Handling',
     description: 'Implemente uma função converter_para_inteiro(texto) que tente converter uma string com int(). Se ocorrer ValueError, capture o erro e retorne None. Teste com "123" e com "abc".',
+    descriptionEn: 'Implement function converter_para_inteiro(texto) that tries converting a string with int(). If ValueError occurs, catch it and return None. Test with "123" and "abc".',
     difficulty: 'easy',
     starterCode: py`# Implemente a função segura com try/except ValueError:
 `,
@@ -1057,6 +1310,10 @@ None`,
       'Envolva int(texto) dentro do bloco try',
       'No bloco except ValueError: retorne None',
     ],
+    hintsEn: [
+          "Wrap int(texto) inside a try block",
+          "In except ValueError: block return None"
+    ],
     xpReward: 40,
   },
 
@@ -1065,7 +1322,9 @@ None`,
     id: 'ex-l7-2-1',
     lessonId: 'l7-2',
     title: 'Criando Exceção de Saldo Negativo',
+    titleEn: 'Creating Negative Balance Exception',
     description: 'Crie uma classe SaldoInsuficienteError que herda de Exception. Crie uma função validar_saque(saldo, valor) que levanta (raise) essa exceção caso o valor seja maior que o saldo.',
+    descriptionEn: 'Create class SaldoInsuficienteError inheriting from Exception. Create function validar_saque(saldo, valor) raising this exception if valor > saldo.',
     difficulty: 'medium',
     starterCode: py`# Crie a exceção e teste capturando no try/except:
 `,
@@ -1086,6 +1345,10 @@ except SaldoInsuficienteError as erro:
       'class SaldoInsuficienteError(Exception): pass',
       'Use a palavra raise SaldoInsuficienteError("mensagem") quando valor > saldo',
     ],
+    hintsEn: [
+          "class SaldoInsuficienteError(Exception): pass",
+          "Use raise SaldoInsuficienteError(\"mensagem\") when valor > saldo"
+    ],
     xpReward: 60,
   },
 
@@ -1094,7 +1357,9 @@ except SaldoInsuficienteError as erro:
     id: 'ex-l7-5-1',
     lessonId: 'l7-5',
     title: 'Serialização e Desserialização de JSON',
+    titleEn: 'JSON Serialization and Deserialization',
     description: 'Dado o dicionário usuario = {"id": 1, "ativo": True}, serialize-o para string JSON com json.dumps() e depois desserialize de volta com json.loads(), exibindo o campo "id".',
+    descriptionEn: 'Given dict usuario = {"id": 1, "ativo": True}, serialize to JSON string with json.dumps() and deserialize back with json.loads(), displaying the "id" field.',
     difficulty: 'easy',
     starterCode: py`import json
 
@@ -1116,6 +1381,10 @@ ID recuperado: 1`,
       'json.dumps() converte dicionário em string JSON',
       'json.loads() converte string JSON de volta para dicionário Python',
     ],
+    hintsEn: [
+          "json.dumps() converts dictionary to JSON string",
+          "json.loads() converts JSON string back to Python dictionary"
+    ],
     xpReward: 50,
   },
 
@@ -1128,7 +1397,9 @@ ID recuperado: 1`,
     id: 'ex-l8-2-1',
     lessonId: 'l8-2',
     title: 'Operações Vetorizadas com Arrays',
+    titleEn: 'Vectorized Operations with Arrays',
     description: 'Crie uma simulação conceitual de vetorização: dada uma lista precos = [100, 200, 300], aplique 10% de imposto em cada valor usando list comprehension e exiba a lista resultante.',
+    descriptionEn: 'Create a conceptual simulation of vectorization: given list precos = [100, 200, 300], apply 10% tax to each value using list comprehension and display the resulting list.',
     difficulty: 'easy',
     starterCode: py`precos = [100, 200, 300]
 
@@ -1142,6 +1413,10 @@ print("Preços com imposto:", com_imposto)`,
       'Cada elemento deve ser multiplicado por 1.10',
       'Use a compreensão [p * 1.10 for p in precos]',
     ],
+    hintsEn: [
+      "Each element should be multiplied by 1.10",
+      "Use comprehension [p * 1.10 for p in precos]",
+    ],
     xpReward: 40,
   },
 
@@ -1150,7 +1425,9 @@ print("Preços com imposto:", com_imposto)`,
     id: 'ex-l8-3-1',
     lessonId: 'l8-3',
     title: 'Filtragem Estruturada de Tabela',
+    titleEn: 'Structured Table Filtering',
     description: 'Dado o conjunto de dados registros = [{"nome": "Ana", "vendas": 5000}, {"nome": "Bob", "vendas": 1200}, {"nome": "Clara", "vendas": 8000}], filtre apenas quem vendeu mais de 3000 e exiba os nomes.',
+    descriptionEn: 'Given records = [{"nome": "Ana", "vendas": 5000}, {"nome": "Bob", "vendas": 1200}, {"nome": "Clara", "vendas": 8000}], filter those with sales > 3000 and display their names.',
     difficulty: 'medium',
     starterCode: py`registros = [
     {"nome": "Ana", "vendas": 5000},
@@ -1172,6 +1449,10 @@ print("Vendedores destaque:", destaques)`,
     hints: [
       'Use compreensão com filtro: [r["nome"] for r in registros if r["vendas"] > 3000]',
     ],
+    hintsEn: [
+      'Use comprehension with filter: [r["nome"] for r in registros if r["vendas"] > 3000]',
+      'Print the resulting list of names',
+    ],
     xpReward: 50,
   },
 
@@ -1180,7 +1461,9 @@ print("Vendedores destaque:", destaques)`,
     id: 'ex-l8-5-1',
     lessonId: 'l8-5',
     title: 'Parsing de Resposta de API',
+    titleEn: 'API Response Parsing',
     description: 'Dada a string simulada de resposta de API payload = \'{"status": 200, "data": {"cotacao": 5.42}}\', faça o parse com json.loads() e imprima "Cotação recebida: 5.42".',
+    descriptionEn: 'Given mock API JSON string payload = \'{"status": 200, "data": {"cotacao": 5.42}}\', parse it with json.loads() and print "Cotação recebida: 5.42".',
     difficulty: 'easy',
     starterCode: py`import json
 
@@ -1198,6 +1481,10 @@ print("Cotação recebida:", cotacao)`,
     hints: [
       'resposta = json.loads(payload)',
       'Acesse de forma encadeada: resposta["data"]["cotacao"]',
+    ],
+    hintsEn: [
+      'resposta = json.loads(payload)',
+      'Access chained keys: resposta["data"]["cotacao"]',
     ],
     xpReward: 40,
   },

@@ -22,6 +22,7 @@ export interface Lesson {
   title: string;
   titleEn: string;
   description: string;
+  descriptionEn?: string;
   order: number;
   type: 'theory' | 'exercise' | 'project' | 'quiz';
   estimatedMinutes: number;
@@ -36,13 +37,16 @@ export interface Exercise {
   id: string;
   lessonId?: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   difficulty: 'easy' | 'medium' | 'hard';
   starterCode: string;
   solution: string;
   expectedOutput?: string;
   testCases?: TestCase[];
   hints: string[];
+  hintsEn?: string[];
   xpReward: number;
   timeLimit?: number; // seconds, for timed challenges
 }
@@ -51,15 +55,19 @@ export interface TestCase {
   input: string;
   expectedOutput: string;
   description: string;
+  descriptionEn?: string;
   isHidden?: boolean;
 }
 
 export interface QuizQuestion {
   id: string;
   question: string;
+  questionEn?: string;
   options: string[];
+  optionsEn?: string[];
   correctIndex: number;
   explanation: string;
+  explanationEn?: string;
 }
 
 export interface UserProgress {
